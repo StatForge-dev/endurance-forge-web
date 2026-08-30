@@ -1,8 +1,8 @@
-# Endurance Forge Web v0.3.0
+# Endurance Forge Web v0.3.1
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
-## v0.3.0
+## v0.3.1
 - Automatic sustained-running segment detection separates walking/warm-up from the primary run when the speed trace supports it.
 - Manual analysis-segment start/end override.
 - Workload-normalized HR drift/aerobic decoupling calculated inside the selected running segment.
@@ -25,3 +25,11 @@ npm run build
 ```
 
 Cloudflare Pages build output: `dist`
+
+
+## v0.3.1 inference refinement
+- Selects a stable aerobic-estimation window inside the sustained running segment.
+- Keeps cardiac drift analysis on the longer comparable running segment.
+- Separates data quality from physiological inference confidence.
+- Caps a single-run submaximal aerobic-fitness estimate at Moderate inference confidence until corroborated by additional runs/workloads.
+- Downgrades inference confidence when drift, workload variability, or HR-reserve range make extrapolation less reliable.
