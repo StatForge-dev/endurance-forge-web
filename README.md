@@ -1,17 +1,20 @@
-# Endurance Forge Web v0.3.1
+# Endurance Forge Web v0.3.2 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
-## v0.3.1
-- Automatic sustained-running segment detection separates walking/warm-up from the primary run when the speed trace supports it.
-- Manual analysis-segment start/end override.
-- Workload-normalized HR drift/aerobic decoupling calculated inside the selected running segment.
-- EF Aerobic Fitness Estimate using treadmill workload plus heart-rate reserve when known maximum HR and resting HR are supplied.
-- Confidence rating and explicit reasons when an aerobic-fitness estimate is unavailable.
-- Activity max HR is never silently substituted for known physiological HRmax.
-- Speed + HR activity visualization with the analyzed segment highlighted.
-- Compare Runs now uses segment-aware HR/drift values.
-- Raw activity files remain browser-local.
+## Public-beta focus
+- Explicitly defines EF Aerobic Fitness Estimate as a **treadmill-derived VO₂max-equivalent estimate**.
+- Adds a dedicated **Metrics Guide** with plain-language interpretation.
+- Expands **Methodology** with equations, assumptions, stable-window logic, confidence, limitations, and privacy.
+- Adds a comparison of laboratory VO₂max, device VO₂max estimates, EF Aerobic Fitness Estimate, and Running O₂ Cost.
+- Adds public-beta labeling and a GitHub feedback/issues link.
+- Keeps the v0.3.1 analysis algorithm unchanged.
+
+## Important interpretation
+EF Aerobic Fitness is comparable to VO₂max in concept and units (mL/kg/min), but is not a direct oxygen-consumption measurement and is not claimed to be interchangeable with laboratory or device-manufacturer VO₂max.
+
+## Privacy
+Raw FIT, TCX, and GPX files are parsed and analyzed in the browser. Physiological profile values are stored in browser-local storage.
 
 ## Development
 ```bash
@@ -24,12 +27,4 @@ npm run dev
 npm run build
 ```
 
-Cloudflare Pages build output: `dist`
-
-
-## v0.3.1 inference refinement
-- Selects a stable aerobic-estimation window inside the sustained running segment.
-- Keeps cardiac drift analysis on the longer comparable running segment.
-- Separates data quality from physiological inference confidence.
-- Caps a single-run submaximal aerobic-fitness estimate at Moderate inference confidence until corroborated by additional runs/workloads.
-- Downgrades inference confidence when drift, workload variability, or HR-reserve range make extrapolation less reliable.
+Cloudflare Pages build output: `dist`.
