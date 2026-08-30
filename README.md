@@ -1,36 +1,27 @@
-# Endurance Forge Web v0.2.0
+# Endurance Forge Web v0.3.0
 
-Local-first treadmill and running-performance analysis for FIT, TCX, and GPX activity files.
+Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
-## Architecture
+## v0.3.0
+- Automatic sustained-running segment detection separates walking/warm-up from the primary run when the speed trace supports it.
+- Manual analysis-segment start/end override.
+- Workload-normalized HR drift/aerobic decoupling calculated inside the selected running segment.
+- EF Aerobic Fitness Estimate using treadmill workload plus heart-rate reserve when known maximum HR and resting HR are supplied.
+- Confidence rating and explicit reasons when an aerobic-fitness estimate is unavailable.
+- Activity max HR is never silently substituted for known physiological HRmax.
+- Speed + HR activity visualization with the analyzed segment highlighted.
+- Compare Runs now uses segment-aware HR/drift values.
+- Raw activity files remain browser-local.
 
-Source files are parsed by format adapters into a normalized Endurance Forge activity model. Analysis code consumes that model rather than format-specific structures.
-
-Supported analysis inputs:
-- FIT
-- TCX
-- GPX
-
-Current corrected-file export:
-- FIT
-
-TCX and GPX support treadmill-authoritative distance/time/grade for analysis now; rewritten file exporters are intentionally deferred.
-
-## Run locally
-
+## Development
 ```bash
 npm install
 npm run dev
 ```
 
 ## Production build
-
 ```bash
 npm run build
 ```
 
-Vite writes the static production site to `dist/`.
-
-## Privacy
-
-The current app reads activity files through the browser File API. Raw files do not need to be sent to an Endurance Forge server.
+Cloudflare Pages build output: `dist`
