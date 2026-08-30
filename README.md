@@ -1,6 +1,11 @@
-# Endurance Forge Web v0.3.2 — Public Beta
+# Endurance Forge Web v0.3.3 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
+
+## v0.3.3
+- Adds optional project-support links to the site footer and Methodology page.
+- Support destination: Buy Me a Coffee for Endurance Forge.
+- No analytics or estimation-method changes from v0.3.2.
 
 ## Public-beta focus
 - Explicitly defines EF Aerobic Fitness Estimate as a **treadmill-derived VO₂max-equivalent estimate**.
