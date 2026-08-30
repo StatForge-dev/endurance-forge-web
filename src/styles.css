@@ -10,3 +10,12 @@
 @media(max-width:620px){.metric-grid.five,.structure-grid,.profile-row{grid-template-columns:1fr}.segment-controls{display:grid}.segment-controls input{width:100%}}
 
 .fitness-shade{fill:rgba(126,217,87,.08);stroke:rgba(126,217,87,.32);stroke-width:1}.legend-fitness:before{height:8px!important;background:rgba(126,217,87,.22)!important}.quality-line{margin-top:10px!important;padding-top:9px;border-top:1px solid #294258}.quality-line b{color:#f4f7fb}
+
+/* v0.3.2 public-beta documentation */
+.equivalent-label{display:inline-block;margin:0 0 12px;color:#7ed957;font-size:10px;font-weight:900;letter-spacing:1.25px}
+.metric-help{margin:-4px 0 14px;padding:10px 13px;border:1px solid #294258;background:#0d1825;color:#8ea2b4;font-size:11px;line-height:1.55}.metric-help b{color:#dce7f0}
+.compare-callout{margin-bottom:14px;padding:28px;background:linear-gradient(110deg,#12263a,#132d2d);border:1px solid #35566b}.compare-callout h2{margin:0 0 9px;font-size:28px}.compare-callout p{margin:0;max-width:1000px;color:#b3c2ce;line-height:1.7}.compare-callout b{color:#fff}
+.formula{margin:14px 0;padding:16px 18px;background:#0b1723;border-left:3px solid #2f80ed;color:#dce8f2;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:15px;overflow:auto}
+.prose table td{vertical-align:top;line-height:1.55;color:#a8b8c8}.prose table td b{color:#f4f7fb}
+.doc-link{display:inline-block;color:#7eb9ff;text-decoration:none;border-bottom:1px solid rgba(126,185,255,.4);padding-bottom:2px}.doc-link:hover{color:#fff}
+@media(max-width:1100px){header{gap:18px}nav{gap:2px}nav button{padding:8px}}
