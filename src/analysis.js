@@ -63,6 +63,12 @@ function findPrimaryRun(times,speeds) {
   return {startS:times[best.a],endS:times[best.b],thresholdMph:threshold,method:'automatic sustained running detection',detected:true};
 }
 function subset(series,startS,endS) { return series.filter(r=>r.t>=startS&&r.t<=endS); }
+function linearSlope(points,key) {
+  const x=points.filter(p=>finite(p.t)&&finite(p[key])); if(x.length<3)return NaN;
+  const mt=mean(x.map(p=>p.t)), my=mean(x.map(p=>p[key]));
+  const den=x.reduce((s,p)=>s+(p.t-mt)**2,0); if(!den)return NaN;
+  return x.reduce((s,p)=>s+(p.t-mt)*(p[key]-my),0)/den;
+}
 function calcDrift(seg) {
   const usable=seg.filter(r=>finite(r.hr)&&finite(r.speedMph)&&r.speedMph>1);
   if(usable.length<40)return null;
@@ -75,24 +81,74 @@ function calcDrift(seg) {
   const speedChange=(sp2/sp1-1)*100;
   return {value:normalized,rawHrDrift:raw,speedChange,firstHr:hr1,secondHr:hr2,firstSpeed:sp1,secondSpeed:sp2,label:Math.abs(speedChange)<=5?'HR drift':'Aerobic decoupling'};
 }
-function fitnessEstimate(seg,gradePct,maxHr,restHr,drift) {
-  const avgHr=mean(seg.map(r=>r.hr)), avgSpeed=mean(seg.map(r=>r.speedMph));
-  const durationS=seg.length?seg.at(-1).t-seg[0].t:0;
-  if(!finite(avgHr)||!finite(avgSpeed)||durationS<600)return {value:NaN,confidence:'Unavailable',reason:'Needs at least 10 minutes of running with usable speed and heart-rate samples.'};
-  if(!(maxHr>100)||!(restHr>25)||maxHr<=restHr+30)return {value:NaN,confidence:'Unavailable',reason:'Enter your known maximum HR and resting HR for a submaximal EF aerobic fitness estimate.'};
+
+function windowStats(points) {
+  const usable=points.filter(r=>finite(r.hr)&&finite(r.speedMph)&&r.speedMph>1);
+  if(usable.length<30)return null;
+  const durationS=usable.at(-1).t-usable[0].t;
+  if(durationS<480)return null;
+  const avgHr=mean(usable.map(r=>r.hr)), avgSpeed=mean(usable.map(r=>r.speedMph));
+  const speedSd=stdev(usable.map(r=>r.speedMph));
+  const speedCv=finite(speedSd)&&avgSpeed>0?speedSd/avgSpeed:NaN;
+  const hrSlopeBpmMin=linearSlope(usable,'hr')*60;
+  const drift=calcDrift(usable);
+  return {usable,durationS,avgHr,avgSpeed,speedCv,hrSlopeBpmMin,drift};
+}
+
+function findStableFitnessWindow(seg) {
+  if(!seg.length)return null;
+  const total=seg.at(-1).t-seg[0].t;
+  const desired=total>=1500?900:total>=1080?720:Math.min(total,600);
+  if(desired<480)return null;
+  const step=30;
+  const startMin=seg[0].t;
+  const lastStart=seg.at(-1).t-desired;
+  const candidates=[];
+  for(let s=startMin;s<=lastStart+1;s+=step){
+    const stats=windowStats(subset(seg,s,s+desired));
+    if(!stats)continue;
+    const driftAbs=stats.drift?Math.abs(stats.drift.value):8;
+    const speedPenalty=finite(stats.speedCv)?stats.speedCv*100:12;
+    const slopePenalty=finite(stats.hrSlopeBpmMin)?Math.abs(stats.hrSlopeBpmMin)*1.8:6;
+    const latePenalty=total>desired?((s-startMin)/Math.max(1,total-desired))*0.8:0;
+    const score=driftAbs*0.9+speedPenalty*1.4+slopePenalty+latePenalty;
+    candidates.push({startS:s,endS:s+desired,score,...stats});
+  }
+  if(!candidates.length){
+    const stats=windowStats(seg); return stats?{startS:seg[0].t,endS:seg.at(-1).t,score:NaN,...stats}:null;
+  }
+  candidates.sort((a,b)=>a.score-b.score);
+  return candidates[0];
+}
+
+function assessDataQuality(win) {
+  if(!win)return {level:'Unavailable',reason:'No stable estimation window with usable speed and heart-rate data.'};
+  const cv=win.speedCv, coverage=win.usable.length/Math.max(1,Math.round(win.durationS));
+  if(win.durationS>=720&&finite(cv)&&cv<=.05&&coverage>=.5)return {level:'High',reason:'Long, well-sampled estimation window with stable treadmill speed.'};
+  if(win.durationS>=600&&finite(cv)&&cv<=.10)return {level:'Moderate',reason:'Usable estimation window with acceptable workload stability.'};
+  return {level:'Low',reason:'Limited duration, sampling, or workload stability in the estimation window.'};
+}
+
+function fitnessEstimate(win,gradePct,maxHr,restHr,wholeDrift,dataQuality) {
+  if(!win)return {value:NaN,confidence:'Unavailable',dataQuality:dataQuality?.level||'Unavailable',reason:'No stable estimation window could be identified.'};
+  const {avgHr,avgSpeed,durationS,speedCv}=win;
+  if(!finite(avgHr)||!finite(avgSpeed)||durationS<480)return {value:NaN,confidence:'Unavailable',dataQuality:dataQuality?.level||'Unavailable',reason:'Needs at least 8 minutes of stable running with usable speed and heart-rate samples.'};
+  if(!(maxHr>100)||!(restHr>25)||maxHr<=restHr+30)return {value:NaN,confidence:'Unavailable',dataQuality:dataQuality?.level||'Unavailable',reason:'Enter your known maximum HR and resting HR for a submaximal EF aerobic fitness estimate.'};
   const hrr=(avgHr-restHr)/(maxHr-restHr);
-  if(!(hrr>=.35&&hrr<=.92))return {value:NaN,confidence:'Low',reason:`Selected segment is outside the preferred submaximal HR-reserve range (${Math.round(hrr*100)}% HRR).`};
+  if(!(hrr>=.35&&hrr<=.92))return {value:NaN,confidence:'Low',dataQuality:dataQuality?.level||'Unavailable',reason:`Estimation window is outside the preferred submaximal HR-reserve range (${Math.round(hrr*100)}% HRR).`};
   const workload=oxygenCostLevelRun(avgSpeed,gradePct);
   const value=3.5+(workload-3.5)/hrr;
-  if(!(value>=15&&value<=90))return {value:NaN,confidence:'Low',reason:'The available workload/HR relationship produced an implausible estimate.'};
-  const speeds=seg.map(r=>r.speedMph).filter(finite), cv=finite(stdev(speeds))&&avgSpeed>0?stdev(speeds)/avgSpeed:NaN;
-  let score=0;
-  if(durationS>=1200)score++; if(durationS>=1800)score++;
-  if(finite(cv)&&cv<=.05)score++; else if(finite(cv)&&cv<=.10)score+=.5;
-  if(hrr>=.50&&hrr<=.85)score++;
-  if(drift&&Math.abs(drift.value)<=7)score++;
-  const confidence=score>=4?'High':score>=2.5?'Moderate':'Low';
-  return {value,confidence,reason:'Submaximal estimate from treadmill workload and heart-rate reserve.',workloadVo2:workload,hrr,avgHr,avgSpeed,durationS,speedCv:cv};
+  if(!(value>=15&&value<=90))return {value:NaN,confidence:'Low',dataQuality:dataQuality?.level||'Unavailable',reason:'The available workload/HR relationship produced an implausible estimate.'};
+
+  let confidence='Moderate'; // Single-run submaximal inference is intentionally capped at Moderate.
+  const localDrift=win.drift?Math.abs(win.drift.value):NaN;
+  const wholeDriftAbs=wholeDrift?Math.abs(wholeDrift.value):NaN;
+  const unstable = (finite(speedCv)&&speedCv>.10) || (finite(localDrift)&&localDrift>7) || (finite(wholeDriftAbs)&&wholeDriftAbs>12) || hrr<.45 || hrr>.88 || dataQuality?.level==='Low';
+  if(unstable)confidence='Low';
+  const reason=confidence==='Moderate'
+    ? 'Single-run submaximal estimate from the most stable workload/HR window; inference confidence is capped at Moderate until corroborated by additional runs or workloads.'
+    : 'Single-run estimate from the most stable workload/HR window, but physiological or workload instability reduces inference confidence.';
+  return {value,confidence,dataQuality:dataQuality?.level||'Unavailable',reason,workloadVo2:workload,hrr,avgHr,avgSpeed,durationS,speedCv,windowDrift:win.drift,windowStartS:win.startS,windowEndS:win.endS,hrSlopeBpmMin:win.hrSlopeBpmMin};
 }
 
 export function analyzeTreadmillActivity(activity,{targetDistanceM,targetTimerS,gradePct=0,maxHr=NaN,restHr=NaN,manualStartS=NaN,manualEndS=NaN}={}) {
@@ -111,14 +167,15 @@ export function analyzeTreadmillActivity(activity,{targetDistanceM,targetTimerS,
   let startS=finite(manualStartS)?Math.max(0,manualStartS):auto.startS;
   let endS=finite(manualEndS)?Math.min(totalS,manualEndS):auto.endS;
   if(!(endS>startS)) {startS=0;endS=totalS;}
-  // Allow HR to settle after a walk-to-run transition without discarding too much of short efforts.
   const transitionTrim=auto.detected && !finite(manualStartS) ? Math.min(90,Math.max(30,(endS-startS)*.06)) : 0;
   const analysisStart=Math.min(endS-60,startS+transitionTrim);
   const seg=subset(series,analysisStart,endS);
   const avgSpeed=mean(seg.map(r=>r.speedMph)),avgHr=mean(seg.map(r=>r.hr));
   const drift=calcDrift(seg);
-  const fitness=fitnessEstimate(seg,Number(gradePct)||0,Number(maxHr),Number(restHr),drift);
+  const fitnessWindow=findStableFitnessWindow(seg);
+  const dataQuality=assessDataQuality(fitnessWindow);
+  const fitness=fitnessEstimate(fitnessWindow,Number(gradePct)||0,Number(maxHr),Number(restHr),drift,dataQuality);
   const walking=series.filter(r=>r.t<startS);
   const preDistanceMph=mean(walking.map(r=>r.speedMph));
-  return {available:true,series,auto,startS,endS,analysisStartS:analysisStart,analysisEndS:endS,segmentDurationS:endS-startS,analysisDurationS:endS-analysisStart,avgSpeedMph:avgSpeed,avgHr,drift,fitness,preSegmentDurationS:startS,preSegmentAvgSpeedMph:preDistanceMph};
+  return {available:true,series,auto,startS,endS,analysisStartS:analysisStart,analysisEndS:endS,segmentDurationS:endS-startS,analysisDurationS:endS-analysisStart,avgSpeedMph:avgSpeed,avgHr,drift,fitness,fitnessWindow,dataQuality,preSegmentDurationS:startS,preSegmentAvgSpeedMph:preDistanceMph};
 }
