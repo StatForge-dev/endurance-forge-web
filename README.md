@@ -1,4 +1,4 @@
-# Endurance Forge Web v0.3.6 — Public Beta
+# Endurance Forge Web v0.3.5 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
@@ -54,3 +54,17 @@ npm run build
 ```
 
 Cloudflare Pages build output: `dist`.
+
+
+## v0.4.0 — Multi-run aerobic inference
+- Adds a combined EF Aerobic Fitness Estimate across qualifying treadmill runs.
+- Each run is analyzed independently before combination; the model does not blindly average single-run estimates.
+- Adds per-run treadmill truth inputs (distance, time, and grade) and run inclusion controls on Compare Runs.
+- Uses a shared locally stored maximum/resting HR profile across selected activities.
+- Fits workload oxygen reserve against HR-reserve fraction using quality/drift weighting plus iterative robust residual weighting.
+- Reports qualifying-run count, workload span, run-to-run MAD, and multi-run inference confidence.
+- High inference confidence requires corroboration across at least three suitable runs with workload diversity and close agreement.
+- Adds a workload-vs-HRR visualization with the fitted combined EF relationship.
+- Expands Metrics Guide and Methodology with the multi-run logic, equations, eligibility rules, confidence interpretation, and limitations.
+
+The combined result remains a treadmill-derived VO2max-equivalent analytical estimate. It is not a direct oxygen-consumption measurement, laboratory VO2max, or manufacturer metric.
