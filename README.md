@@ -1,4 +1,4 @@
-# Endurance Forge Web v0.3.5 — Public Beta
+# Endurance Forge Web v0.3.6 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
