@@ -2,6 +2,14 @@
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
+## v0.3.6
+- Adds Endurance Forge favicon and touch icons across all routes.
+- Adds a workout timeline showing warm-up, sustained run, drift-analysis segment, and stable fitness window.
+- Adds first-half vs second-half heart-rate and speed visualization for HR drift / aerobic decoupling.
+- Adds a heart-rate-reserve visualization for the stable fitness window.
+- Adds Compare Runs visual summaries for average HR and workload-normalized drift.
+- Includes small public-copy cleanup; no analytics or estimation-method changes from v0.3.5.
+
 ## v0.3.5
 - Adds `sitemap.xml` and `robots.txt` for search-engine discovery.
 - Adds indexable routes for Home, Analyze, Compare Runs, Metrics Guide, and Methodology.
