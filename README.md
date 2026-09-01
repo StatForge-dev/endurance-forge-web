@@ -1,6 +1,13 @@
-# Endurance Forge Web v0.3.4 — Public Beta
+# Endurance Forge Web v0.3.5 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
+
+## v0.3.5
+- Adds `sitemap.xml` and `robots.txt` for search-engine discovery.
+- Adds indexable routes for Home, Analyze, Compare Runs, Metrics Guide, and Methodology.
+- Adds page-specific titles, descriptions, canonical URLs, Open Graph metadata, and basic WebApplication structured data.
+- Adds browser history/back-button support for application navigation.
+- No analytics or estimation-method changes from v0.3.4.
 
 ## v0.3.4
 - Cleans public-facing copy to remove release-note, roadmap, and internal-development language.
