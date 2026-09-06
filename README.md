@@ -1,6 +1,16 @@
-# Endurance Forge Web v0.4.2 — Public Beta
+# Endurance Forge Web v0.4.3 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
+
+## v0.4.3 — Performance-neutral evidence eligibility
+
+- Makes an explicit methodological guarantee that runs are never excluded because they were slow, difficult, unusually high-HR, low-performing, or produced a high/low valid EF estimate.
+- Defines exclusion as an **evidence-adequacy/model-applicability** decision rather than a performance-quality decision.
+- Keeps technically valid off-days in the combined fitness picture; discordant valid observations are handled through weighting and robust residual weighting rather than rejection.
+- Adds a prominent Compare Runs note explaining that exclusion is based on evidence adequacy, not running performance.
+- Adds the same principle to Metrics Guide and Methodology so the policy is public and auditable.
+- Shows stable-window durations as `mm:ss` near 10:00/12:00 thresholds to avoid contradictory-looking rounded labels.
+- Updates the site release identifier to `PUBLIC BETA · v0.4.3 · LOCAL-FIRST`.
 
 ## v0.4.2 — Activity visualization and virtual laps
 
