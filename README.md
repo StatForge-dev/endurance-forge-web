@@ -1,6 +1,16 @@
-# Endurance Forge Web v0.4.3 — Public Beta
+# Endurance Forge Web v0.4.4 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
+
+
+## v0.4.4 — iPhone/iPad file-picker compatibility
+
+- Removes the HTML file-picker `accept` restriction that could cause FIT files in iCloud Drive to appear dimmed and unselectable on iOS/iPadOS.
+- Endurance Forge now lets the operating-system file picker return a file first, then validates the filename extension inside the app.
+- FIT, TCX, and GPX remain the only supported activity formats; unsupported selections receive the existing clear validation error.
+- Applies to both **Analyze** and **Compare Runs** upload controls.
+- Resets the file input after each selection so the same file can be selected again after an error or retry.
+- Updates the site release identifier to `PUBLIC BETA · v0.4.4 · LOCAL-FIRST`.
 
 ## v0.4.3 — Performance-neutral evidence eligibility
 
