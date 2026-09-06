@@ -1,9 +1,15 @@
 const finite=Number.isFinite;
 const median=xs=>{const a=xs.filter(finite).slice().sort((x,y)=>x-y);if(!a.length)return NaN;const m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2};
 const mad=xs=>{const m=median(xs);return finite(m)?median(xs.map(x=>Math.abs(x-m))):NaN};
+const durationLabel=s=>{if(!finite(s))return 'unavailable';const n=Math.max(0,Math.round(s)),m=Math.floor(n/60),sec=n%60;return `${m}:${String(sec).padStart(2,'0')}`};
 
 export function assessRunEvidence(run){
   const reasons=[];
+  // PERFORMANCE-NEUTRAL ELIGIBILITY PRINCIPLE:
+  // Evidence tiering must never reject or downgrade a run because its EF estimate is
+  // high/low, its pace is slow/fast, or it disagrees with the current combined fit.
+  // Eligibility is based only on whether the observation is technically/model-adequate.
+  // Discordant but valid observations remain in the model and are handled by robust weighting.
   const stableS=run?.analysis?.fitness?.durationS;
   const drift=Math.abs(run?.driftPct);
 
@@ -15,10 +21,10 @@ export function assessRunEvidence(run){
   if(!(run.hrr>=.35&&run.hrr<=.92))return {status:'Excluded',tier:'excluded',modelEligible:false,reasons:[`HR reserve (${Math.round(run.hrr*100)}%) is outside the current 35–92% model range.`]};
   // Multi-run inference deliberately requires more stable evidence than the minimum
   // needed to display a single-run estimate.
-  if(!finite(stableS)||stableS<600)return {status:'Excluded',tier:'excluded',modelEligible:false,reasons:[`Stable EF window is ${finite(stableS)?Math.round(stableS/60):'<10'} min; multi-run inference requires at least 10 min.`]};
+  if(!finite(stableS)||stableS<600)return {status:'Excluded',tier:'excluded',modelEligible:false,reasons:[`Stable EF window is ${durationLabel(stableS)}; multi-run inference requires at least 10:00.`]};
 
   let tier='primary';
-  if(stableS<720){tier='supporting';reasons.push(`Stable EF window is ${Math.round(stableS/60)} min; usable, but shorter than the 12-min Primary-evidence target.`)}
+  if(stableS<720){tier='supporting';reasons.push(`Stable EF window is ${durationLabel(stableS)}; usable, but shorter than the 12:00 Primary-evidence target.`)}
   if(run.dataQuality==='Low'||run.dataQuality==='Unavailable'){tier='supporting';reasons.push(`${run.dataQuality||'Low'} data quality reduces model influence.`)}
   if(run.singleConfidence==='Low'){tier='supporting';reasons.push('Single-run inference is Low confidence, so this observation is down-weighted.')}
   if(finite(drift)&&drift>10){tier='supporting';reasons.push(`Workload-normalized drift is ${drift.toFixed(1)}%, which reduces model influence.`)}
