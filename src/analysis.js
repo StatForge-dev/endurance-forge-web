@@ -40,6 +40,27 @@ function deriveSpeed(records,times,scale) {
     return mps>0&&mps<12?mps*MPS_TO_MPH:NaN;
   });
 }
+
+function normalizeCadenceSpm(v){
+  if(!finite(v)||v<=0)return NaN;
+  return v<120?v*2:v;
+}
+function buildDistanceAxisMiles(times,speeds,targetDistanceM,totalS){
+  const out=new Array(times.length).fill(0);
+  const fallbackMph=targetDistanceM>0&&totalS>0?(targetDistanceM/1609.344)/(totalS/3600):NaN;
+  let acc=0;
+  for(let i=1;i<times.length;i++){
+    const dt=Math.max(0,times[i]-times[i-1]);
+    let a=speeds[i-1],b=speeds[i];
+    let mph=finite(a)&&finite(b)?(a+b)/2:(finite(b)?b:(finite(a)?a:fallbackMph));
+    if(finite(mph)&&mph>=0)acc+=mph*dt/3600;
+    out[i]=acc;
+  }
+  const targetMi=targetDistanceM>0?targetDistanceM/1609.344:NaN;
+  if(finite(targetMi)&&targetMi>0&&acc>0){const k=targetMi/acc;return out.map(v=>v*k);}
+  return out;
+}
+
 function findPrimaryRun(times,speeds) {
   const sm=smooth(speeds,7), valid=sm.filter(v=>finite(v)&&v>0.5);
   if(valid.length<20)return {startS:0,endS:times.at(-1)||0,thresholdMph:NaN,method:'whole activity',detected:false};
@@ -162,7 +183,21 @@ export function analyzeTreadmillActivity(activity,{targetDistanceM,targetTimerS,
   const speedScale=distScale/timeScale;
   const rawTimes=timeAxis(records,recordedTime>0?recordedTime:totalS).map(t=>t*timeScale);
   const speeds=deriveSpeed(records,rawTimes,speedScale);
-  const series=records.map((r,i)=>({t:rawTimes[i],speedMph:speeds[i],hr:finite(r.hr)?r.hr:NaN,cadence:finite(r.cadence)?r.cadence:NaN})).filter(r=>finite(r.t));
+  const distanceMi=buildDistanceAxisMiles(rawTimes,speeds,targetDistanceM,totalS);
+  const series=records.map((r,i)=>{
+    const cadenceSpm=normalizeCadenceSpm(r.cadence);
+    const speedMps=finite(speeds[i])?speeds[i]/MPS_TO_MPH:NaN;
+    const derivedStride=finite(speedMps)&&finite(cadenceSpm)&&cadenceSpm>0?speedMps*60/cadenceSpm:NaN;
+    return {
+      t:rawTimes[i],distanceMi:distanceMi[i],speedMph:speeds[i],hr:finite(r.hr)?r.hr:NaN,
+      cadence:finite(r.cadence)?r.cadence:NaN,cadenceSpm,
+      strideLengthM:finite(r.stepLengthM)&&r.stepLengthM>0?r.stepLengthM:derivedStride,
+      verticalOscillationMm:finite(r.verticalOscillationMm)?r.verticalOscillationMm:NaN,
+      verticalRatioPct:finite(r.verticalRatioPct)?r.verticalRatioPct:NaN,
+      groundContactTimeMs:finite(r.groundContactTimeMs)?r.groundContactTimeMs:NaN,
+      groundContactBalancePct:finite(r.groundContactBalancePct)?r.groundContactBalancePct:NaN
+    };
+  }).filter(r=>finite(r.t));
   const auto=findPrimaryRun(series.map(r=>r.t),series.map(r=>r.speedMph));
   let startS=finite(manualStartS)?Math.max(0,manualStartS):auto.startS;
   let endS=finite(manualEndS)?Math.min(totalS,manualEndS):auto.endS;

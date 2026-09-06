@@ -52,6 +52,11 @@ function finalize(activity) {
     heartRateSamples: activity.records.filter(r=>finite(r.hr)).length >= 5,
     cadenceSamples: activity.records.some(r=>finite(r.cadence)),
     speedSamples: activity.records.some(r=>finite(r.speedMps)),
+    strideLengthSamples: activity.records.some(r=>finite(r.stepLengthM)) || (activity.records.some(r=>finite(r.cadence)) && activity.records.some(r=>finite(r.speedMps))),
+    verticalOscillationSamples: activity.records.some(r=>finite(r.verticalOscillationMm)),
+    verticalRatioSamples: activity.records.some(r=>finite(r.verticalRatioPct)),
+    groundContactTimeSamples: activity.records.some(r=>finite(r.groundContactTimeMs)),
+    groundContactBalanceSamples: activity.records.some(r=>finite(r.groundContactBalancePct)),
     gpsTrack: activity.records.some(r=>finite(r.lat)&&finite(r.lon)),
     elevation: activity.records.some(r=>finite(r.elevationM)),
     laps: (activity.laps || []).length > 0,
@@ -83,6 +88,8 @@ function tcxToActivity(text, fileName) {
     const pos=firstDesc(tp,'Position');
     const hrNode=firstDesc(tp,'HeartRateBpm');
     const speedCandidates=descendants(tp,'Speed').map(numberOf).filter(finite);
+    const all=Array.from(tp.getElementsByTagName('*'));
+    const extNumber=(names)=>{const n=all.find(x=>names.includes((x.localName||x.nodeName.split(':').at(-1)).toLowerCase()));return numberOf(n);};
     return {
       timestampMs:parseTime(textOf(firstDesc(tp,'Time'))),
       distanceM:numberOf(firstDesc(tp,'DistanceMeters')),
@@ -90,6 +97,11 @@ function tcxToActivity(text, fileName) {
       cadence:numberOf(firstDesc(tp,'Cadence')),
       speedMps:speedCandidates[0] ?? NaN,
       elevationM:numberOf(firstDesc(tp,'AltitudeMeters')),
+      verticalOscillationMm:extNumber(['verticaloscillation','vertical_oscillation']),
+      verticalRatioPct:extNumber(['verticalratio','vertical_ratio']),
+      groundContactTimeMs:extNumber(['groundcontacttime','ground_contact_time','stancetime']),
+      groundContactBalancePct:extNumber(['groundcontactbalance','ground_contact_balance','stancetimebalance']),
+      stepLengthM:extNumber(['steplength','step_length','stridelength','stride_length']),
       lat:numberOf(firstDesc(pos,'LatitudeDegrees')),
       lon:numberOf(firstDesc(pos,'LongitudeDegrees'))
     };
@@ -119,7 +131,13 @@ function gpxToActivity(text, fileName) {
     return {
       timestampMs:parseTime(textOf(firstDesc(p,'time'))),
       distanceM:numberOf(dist), hr:numberOf(hr), cadence:numberOf(cad), speedMps:numberOf(speed),
-      elevationM:numberOf(firstDesc(p,'ele')), lat:Number(p.getAttribute('lat')), lon:Number(p.getAttribute('lon'))
+      elevationM:numberOf(firstDesc(p,'ele')),
+      verticalOscillationMm:numberOf(byLocal(['verticaloscillation','vertical_oscillation'])),
+      verticalRatioPct:numberOf(byLocal(['verticalratio','vertical_ratio'])),
+      groundContactTimeMs:numberOf(byLocal(['groundcontacttime','ground_contact_time','stancetime'])),
+      groundContactBalancePct:numberOf(byLocal(['groundcontactbalance','ground_contact_balance','stancetimebalance'])),
+      stepLengthM:numberOf(byLocal(['steplength','step_length','stridelength','stride_length'])),
+      lat:Number(p.getAttribute('lat')), lon:Number(p.getAttribute('lon'))
     };
   });
   return finalize({
@@ -130,7 +148,7 @@ function gpxToActivity(text, fileName) {
 
 function fitToActivity(bytes,fileName) {
   const x=inspectFit(bytes);
-  const records=x.records.map(r=>({timestampMs:finite(r.timestamp)?(r.timestamp+631065600)*1000:NaN, distanceM:r.distanceM, hr:r.hr, cadence:r.cadence, speedMps:r.speedMps, elevationM:NaN, lat:NaN, lon:NaN}));
+  const records=x.records.map(r=>({timestampMs:finite(r.timestamp)?(r.timestamp+631065600)*1000:NaN, distanceM:r.distanceM, hr:r.hr, cadence:r.cadence, speedMps:r.speedMps, elevationM:NaN, lat:NaN, lon:NaN, verticalOscillationMm:r.verticalOscillationMm, verticalRatioPct:r.verticalRatioPct, groundContactTimeMs:r.groundContactTimeMs, groundContactBalancePct:r.groundContactBalancePct, stepLengthM:r.stepLengthM}));
   return finalize({format:'FIT',fileName,sourceLabel:'FIT activity',sport:'Running',recordedDistanceM:x.originalDistanceM,recordedTimerS:x.originalTimerS,recordedElapsedS:x.originalElapsedS,avgHr:x.avgHr,maxHr:x.maxHr,laps:x.laps,records,rawBytes:bytes,fitInfo:x});
 }
 
@@ -156,6 +174,7 @@ export function capabilityRows(a) {
   return [
     ['Distance',a.capabilities.distance],['Duration',a.capabilities.duration],['Heart-rate summary',a.capabilities.heartRateSummary],
     ['Heart-rate samples',a.capabilities.heartRateSamples],['Cadence samples',a.capabilities.cadenceSamples],['Speed samples',a.capabilities.speedSamples],
-    ['GPS track',a.capabilities.gpsTrack],['Elevation',a.capabilities.elevation],['Laps',a.capabilities.laps]
+    ['Stride length',a.capabilities.strideLengthSamples],['Vertical oscillation',a.capabilities.verticalOscillationSamples],['Vertical ratio',a.capabilities.verticalRatioSamples],
+    ['Ground contact time',a.capabilities.groundContactTimeSamples],['GCT balance',a.capabilities.groundContactBalanceSamples],['GPS track',a.capabilities.gpsTrack],['Elevation',a.capabilities.elevation],['Laps',a.capabilities.laps]
   ];
 }
