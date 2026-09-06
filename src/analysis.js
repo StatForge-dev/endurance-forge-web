@@ -164,11 +164,14 @@ function fitnessEstimate(win,gradePct,maxHr,restHr,wholeDrift,dataQuality) {
   let confidence='Moderate'; // Single-run submaximal inference is intentionally capped at Moderate.
   const localDrift=win.drift?Math.abs(win.drift.value):NaN;
   const wholeDriftAbs=wholeDrift?Math.abs(wholeDrift.value):NaN;
-  const unstable = (finite(speedCv)&&speedCv>.10) || (finite(localDrift)&&localDrift>7) || (finite(wholeDriftAbs)&&wholeDriftAbs>12) || hrr<.45 || hrr>.88 || dataQuality?.level==='Low';
+  const workloadDomainLimited = avgSpeed < 5.0;
+  const unstable = workloadDomainLimited || (finite(speedCv)&&speedCv>.10) || (finite(localDrift)&&localDrift>7) || (finite(wholeDriftAbs)&&wholeDriftAbs>12) || hrr<.45 || hrr>.88 || dataQuality?.level==='Low';
   if(unstable)confidence='Low';
   const reason=confidence==='Moderate'
     ? 'Single-run submaximal estimate from the most stable workload/HR window; inference confidence is capped at Moderate until corroborated by additional runs or workloads.'
-    : 'Single-run estimate from the most stable workload/HR window, but physiological or workload instability reduces inference confidence.';
+    : workloadDomainLimited
+      ? 'Single-run estimate uses the ACSM running workload equation below its conventional ~5 mph running domain; the workload calculation is therefore extrapolative and inference confidence is reduced.'
+      : 'Single-run estimate from the most stable workload/HR window, but physiological or workload instability reduces inference confidence.';
   return {value,confidence,dataQuality:dataQuality?.level||'Unavailable',reason,workloadVo2:workload,hrr,avgHr,avgSpeed,durationS,speedCv,windowDrift:win.drift,windowStartS:win.startS,windowEndS:win.endS,hrSlopeBpmMin:win.hrSlopeBpmMin};
 }
 
