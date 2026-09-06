@@ -1,6 +1,29 @@
-# Endurance Forge Web v0.4.0 — Public Beta
+# Endurance Forge Web v0.4.2 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
+
+## v0.4.2 — Activity visualization and virtual laps
+
+- Displays the release number in the site header: `PUBLIC BETA · v0.4.2 · LOCAL-FIRST`.
+- Remembers treadmill grade locally and warns when grade is left at 0%, reducing silent workload-input mistakes.
+- Remembers distance/time/grade for previously analyzed files in the same browser.
+- Adds corrected-distance Pace + Heart Rate progression with stable EF-window shading.
+- Adds configurable Virtual Lap Analysis (default 0.25 mi) with pace, HR, HRR, cadence, stride length, ground-contact time, and vertical-ratio columns when available.
+- Adds running-dynamics progression for cadence, stride length, ground-contact time, vertical oscillation, vertical ratio, and ground-contact balance when present in the source activity.
+- Adds Heart-Rate Reserve zone distribution for the detected running segment.
+- Adds Early vs Late Running Dynamics Change to distinguish cardiovascular change from simultaneous mechanical change without labeling it as fatigue.
+- Extends native FIT parsing for common running-dynamics record fields and derives stride length from corrected speed/cadence when appropriate.
+
+
+## v0.4.1 — Evidence transparency and multi-run eligibility
+- Adds explicit **Primary**, **Supporting**, and **Excluded** evidence classifications for every run in Compare Runs.
+- Adds a plain-language **why** explanation beside each run so users can see exactly why its model influence is full, reduced, or zero.
+- Requires at least a 10-minute stable EF window for multi-run inclusion; shorter single-run estimates remain visible but are excluded from the combined model.
+- Down-weights, rather than automatically rejects, usable high-HRR observations near the upper model boundary.
+- Makes Supporting evidence explicit for shorter windows, Low data/inference quality, substantial drift, and edge-range HRR.
+- High multi-run confidence now requires at least two Primary-evidence observations in addition to workload diversity and agreement requirements.
+- Adds quantitative HRR and workload O₂ axis ticks to the multi-run relationship chart and visually distinguishes Primary from Supporting points.
+- Updates Methodology to publish the evidence-tier rules and thresholds.
 
 ## v0.4.0 — Multi-run aerobic inference
 - Adds a combined EF Aerobic Fitness Estimate across qualifying treadmill runs.
