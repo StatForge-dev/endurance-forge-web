@@ -11,16 +11,16 @@ function parseCore(input){const raw=new Uint8Array(input); if(raw.length<14)thro
 function field(raw,msg,num,scale=1){for(const [f,off] of msg.lay){if(f.num===num){const v=readUInt(raw,msg.payload+off,f.size,msg.defn.little); return v==null?NaN:v/scale;}} return NaN;}
 export function inspectFit(input){const core=parseCore(input), {raw,messages}=core; const sessions=[],laps=[],records=[]; let lastDistance=NaN,avgHr=NaN,maxHr=NaN; for(const m of messages){if(m.defn.globalNum===SESSION){sessions.push({distanceM:field(raw,m,9,100),elapsedS:field(raw,m,7,1000),timerS:field(raw,m,8,1000),avgSpeed:field(raw,m,14,1000)}); const ah=field(raw,m,16),mh=field(raw,m,17); if(finite(ah))avgHr=ah;if(finite(mh))maxHr=mh;} else if(m.defn.globalNum===LAP){laps.push({distanceM:field(raw,m,9,100),elapsedS:field(raw,m,7,1000),timerS:field(raw,m,8,1000),avgHr:field(raw,m,15),maxHr:field(raw,m,16),cadence:field(raw,m,17)});} else if(m.defn.globalNum===RECORD){
       const d=field(raw,m,5,100); if(finite(d))lastDistance=d;
-      const cadenceBase=field(raw,m,4), fractionalCadence=field(raw,m,50,128);
+      const cadenceBase=field(raw,m,4), fractionalCadence=field(raw,m,53,128);
       const cadence=finite(cadenceBase)?cadenceBase+(finite(fractionalCadence)?fractionalCadence:0):NaN;
       records.push({
         timestamp:field(raw,m,253),hr:field(raw,m,3),cadence,distanceM:d,
         speedMps:finite(field(raw,m,73,1000))?field(raw,m,73,1000):field(raw,m,6,1000),
         verticalOscillationMm:field(raw,m,39,10),
         groundContactTimeMs:field(raw,m,41,10),
-        verticalRatioPct:field(raw,m,54,100),
-        groundContactBalancePct:field(raw,m,55,100),
-        stepLengthM:field(raw,m,56,10000)
+        verticalRatioPct:field(raw,m,83,100),
+        groundContactBalancePct:field(raw,m,84,100),
+        stepLengthM:field(raw,m,85,10000)
       });
     }}
  if(!sessions.length)throw new Error('No FIT Session message was found. Endurance Forge only supports Activity FIT files here.'); const s=sessions.at(-1), originalDistanceM=finite(s.distanceM)?s.distanceM:lastDistance, originalTimerS=finite(s.timerS)?s.timerS:s.elapsedS; if(!finite(originalDistanceM)||originalDistanceM<=0)throw new Error('The FIT file does not contain a usable session distance.'); if(!finite(originalTimerS)||originalTimerS<=0)throw new Error('The FIT file does not contain a usable session timer time.'); return {originalDistanceM,originalTimerS,originalElapsedS:finite(s.elapsedS)?s.elapsedS:originalTimerS,avgHr,maxHr,laps,lapCount:laps.length,records}; }
