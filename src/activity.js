@@ -149,7 +149,7 @@ function gpxToActivity(text, fileName) {
 function fitToActivity(bytes,fileName) {
   const x=inspectFit(bytes);
   const records=x.records.map(r=>({timestampMs:finite(r.timestamp)?(r.timestamp+631065600)*1000:NaN, distanceM:r.distanceM, hr:r.hr, cadence:r.cadence, speedMps:r.speedMps, elevationM:NaN, lat:NaN, lon:NaN, verticalOscillationMm:r.verticalOscillationMm, verticalRatioPct:r.verticalRatioPct, groundContactTimeMs:r.groundContactTimeMs, groundContactBalancePct:r.groundContactBalancePct, stepLengthM:r.stepLengthM}));
-  return finalize({format:'FIT',fileName,sourceLabel:'FIT activity',sport:'Running',recordedDistanceM:x.originalDistanceM,recordedTimerS:x.originalTimerS,recordedElapsedS:x.originalElapsedS,avgHr:x.avgHr,maxHr:x.maxHr,laps:x.laps,records,rawBytes:bytes,fitInfo:x});
+  return finalize({format:'FIT',fileName,sourceLabel:'FIT activity',sport:'Running',recordedDistanceM:x.originalDistanceM,recordedTimerS:x.originalTimerS,recordedElapsedS:x.originalElapsedS,avgHr:x.avgHr,maxHr:x.maxHr,laps:x.laps,records,runningDynamicsSummary:x.runningDynamicsSummary,rawBytes:bytes,fitInfo:x});
 }
 
 export function detectFormat(fileName='') {
