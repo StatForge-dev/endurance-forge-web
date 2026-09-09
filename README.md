@@ -1,7 +1,18 @@
-# Endurance Forge Web v0.4.5 — Public Beta
+# Endurance Forge Web v0.4.6 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
+
+
+## v0.4.6 — Garmin running-dynamics summary alignment
+
+- Corrects Garmin FIT record-field mappings for fractional cadence, Vertical Ratio, Ground Contact Time Balance, and Step Length.
+- Reads FIT session-level running-dynamics averages when available so Endurance Forge can display the activity average recorded in the FIT file.
+- Adds **Activity avg** to the Early vs Late Running Dynamics table alongside Early, Late, and Change.
+- Displays Ground Contact Time Balance in Garmin-style paired form, e.g. `44.1% L / 55.9% R`, rather than showing only the left-side percentage.
+- Reports Vertical Ratio and GCT Balance changes in percentage points, while preserving relative-percent change for other applicable metrics.
+- Keeps Endurance Forge Early/Late values distinct from the recorded activity average: the activity average summarizes the whole FIT activity, while Early/Late are calculated from the first and final thirds of the selected running segment.
+- Verified against a Garmin FIT activity whose recorded summaries include 8.4% average Vertical Ratio, 44.1% L / 55.9% R average GCT Balance, 7.3 cm Vertical Oscillation, 283 ms Ground Contact Time, and 0.85 m Step Length.
 
 ## v0.4.5 — iPhone/iPad file-picker compatibility
 
