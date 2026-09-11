@@ -1,8 +1,19 @@
-# Endurance Forge Web v0.4.6 — Public Beta
+# Endurance Forge Web v0.4.7 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
 
+
+
+## v0.4.7 — Environmental context and multi-run heat maps
+
+- Adds optional start/end indoor temperature and relative-humidity inputs for treadmill runs, with °F/°C support and derived dew point.
+- Stores environmental inputs locally with each run and makes them available in Compare Runs.
+- Uses environment as interpretive/comparative context only; it does **not** alter the EF Aerobic Fitness Estimate.
+- Adds a Run Pattern Heat Map after 8 selected runs, using each runner’s median and MAD to highlight robust deviations from their own baseline rather than universal good/bad thresholds.
+- Adds a Metric Relationship Heat Map for exploratory pairwise associations across EF, HRR, HR drift, pace, supported running dynamics, and dew point when sufficient paired data exist.
+- Labels heat-map patterns as emerging below 15 runs, leaves missing data neutral, and explicitly warns that correlations do not establish causation.
+- Keeps all environmental and activity data browser-local.
 
 ## v0.4.6 — Garmin running-dynamics summary alignment
 
