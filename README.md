@@ -1,9 +1,19 @@
-# Endurance Forge Web v0.4.8 — Public Beta
+# Endurance Forge Web v0.4.9 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
 
 
+
+
+## v0.4.9 — Incremental multi-run loading and compact environment controls
+
+- Compare Runs now **adds newly selected activity files to the existing comparison** instead of replacing the current set.
+- Duplicate files are ignored when their file identity matches an activity already loaded.
+- The upload area changes to **Add more FIT, TCX, or GPX files** after the first batch is loaded.
+- The optional Environment panel on single-run Analyze is now collapsible and starts closed unless saved environmental values already exist.
+- The optional indoor Environment table on Compare Runs is also collapsible and starts closed.
+- Environmental calculations, persistence, heat-map behavior, and treadmill/outdoor separation are unchanged.
 
 ## v0.4.8 — Environmental context and multi-run heat maps
 
