@@ -1,11 +1,11 @@
-# Endurance Forge Web v0.4.7 — Public Beta
+# Endurance Forge Web v0.4.8 — Public Beta
 
 Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
 
 
 
 
-## v0.4.7 — Environmental context and multi-run heat maps
+## v0.4.8 — Environmental context and multi-run heat maps
 
 - Adds optional start/end indoor temperature and relative-humidity inputs for treadmill runs, with °F/°C support and derived dew point.
 - Stores environmental inputs locally with each run and makes them available in Compare Runs.
@@ -136,3 +136,13 @@ Cloudflare Pages build output: `dist`.
 ## v0.4.5 — Scientific basis
 
 Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estimate, including derivation, validation literature, contrary evidence, model limitations, and explicit external-validation requirements. Single-run inference is now reduced to Low when the ACSM running workload equation is applied below its conventional ~5 mph running domain; this is a model-domain caution, not a judgment of running performance.
+
+
+## v0.4.8 mixed-run comparison
+- Compare treadmill and outdoor runs in one multi-run workspace.
+- Automatically classifies activities with detected GPS tracks as Outdoor; other runs default to Treadmill and can be changed manually.
+- Outdoor runs contribute pace, heart-rate, drift, running-dynamics, and heat-map context but never enter the treadmill-derived EF Aerobic Fitness model.
+- Mixed heat maps calculate deviation against separate treadmill and outdoor personal baselines.
+- The relationship heat map standardizes metrics within run type before mixed-type correlations are calculated.
+- Optional temperature/humidity remains specific to indoor/treadmill sessions.
+- FIT import now reads record-position latitude/longitude so outdoor FIT activities can be recognized from GPS data when position fields are present.
