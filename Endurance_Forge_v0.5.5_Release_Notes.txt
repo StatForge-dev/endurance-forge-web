@@ -1,0 +1,34 @@
+Endurance Forge v0.5.5 — Virtual Lap Analysis Redesign
+
+WHY THIS CHANGED
+The previous Virtual Lap Analysis plotted average heart rate by lap but did not label the Y-axis,
+units, or the plotted metric clearly enough. The calculation was valid, but the visualization was ambiguous.
+
+NEW DESIGN
+- Virtual Lap Analysis now uses two vertically aligned charts with a shared lap sequence.
+- Upper chart: Pace by virtual lap.
+  * clearly labeled in min/mi
+  * faster pace is positioned higher on the chart
+- Lower chart: selectable comparison metric.
+  * Average heart rate (default)
+  * Heart-rate reserve
+  * Cadence
+  * Stride length
+  * Ground-contact time
+  * Vertical ratio
+- Each chart uses its own labeled scale to avoid misleading dual-axis visual comparisons.
+- Lap points expose detailed lap information through hover tooltips.
+- The existing detailed lap table remains available beneath the charts.
+- Treadmill virtual laps continue to use corrected treadmill distance.
+- Outdoor virtual laps continue to use recorded outdoor distance.
+- Final partial laps remain marked with an asterisk.
+
+DOCUMENTATION
+- Metrics Guide updated to explain Virtual Lap Analysis.
+- Methodology updated to explain lap reconstruction and the use of separate aligned scales.
+
+UNCHANGED
+- Virtual-lap calculations and lap table values.
+- Pace/HRR efficiency calculations.
+- EF treadmill estimator and evidence rules.
+- Multi-Run Summary and longitudinal analytics from v0.5.4.

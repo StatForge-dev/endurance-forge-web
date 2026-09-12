@@ -6,7 +6,7 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
-## v0.5.3 — Incremental multi-run loading and compact environment controls
+## v0.5.5 — Incremental multi-run loading and compact environment controls
 
 - Compare Runs now **adds newly selected activity files to the existing comparison** instead of replacing the current set.
 - Duplicate files are ignored when their file identity matches an activity already loaded.
@@ -158,7 +158,7 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - FIT import now reads record-position latitude/longitude so outdoor FIT activities can be recognized from GPS data when position fields are present.
 
 
-## v0.5.3 analysis additions
+## v0.5.5 analysis additions
 - Pace–HR efficiency from speed relative to heart-rate reserve, including first-half vs second-half change.
 - Expanded HR-reserve intensity summary.
 - Outdoor elevation gain/loss/range from a smoothed altitude trace.
@@ -166,3 +166,26 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - Rule-based Run Insights tied directly to reported metrics.
 - Pace/HRR efficiency added to Multi-Run run-by-run results and personal-baseline heat maps.
 - Outdoor charts and virtual laps now use outdoor-appropriate wording.
+
+
+## v0.5.5 multi-run overview
+- New Multi-Run Snapshot with run counts, distance/time totals and robust median values for pace, HR, HRR, Pace/HRR efficiency and aerobic decoupling.
+- New Across-Run Insights with expandable “Why?” explanations.
+- New Pace–HR Efficiency longitudinal trend.
+- New Aerobic Decoupling longitudinal trend.
+- New Pace vs HRR scatter plot.
+- New selectable Running Dynamics Trend for cadence, stride length, GCT, vertical ratio, vertical oscillation and running power.
+- All Runs / Treadmill / Outdoor filtering for the new dashboard.
+- Mixed-run trend lines stay separated by run type rather than fitting one misleading combined relationship.
+- Existing heat maps remain as complementary “what was unusual?” and “what moves together?” views.
+
+
+## v0.5.5 virtual-lap visualization
+
+- Replaces the ambiguous single-line virtual-lap chart with two aligned, clearly labeled charts.
+- Upper chart always shows pace by virtual lap.
+- Lower chart defaults to Average Heart Rate and can be switched to HRR, cadence, stride length, ground-contact time, or vertical ratio.
+- Each chart has its own Y-axis labels and units; the two metrics are not forced onto a misleading shared numeric scale.
+- Virtual-lap numbers are shared across the aligned charts.
+- Hovering a plotted point exposes complete lap details through the browser tooltip.
+- The detailed virtual-lap table remains below the charts.
