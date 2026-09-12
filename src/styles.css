@@ -77,3 +77,11 @@
 @media(max-width:700px){.collapse-summary small{display:none}.environment-toolbar{justify-content:flex-start}}
 
 .run-detection-panel{margin-bottom:14px}.run-detection-grid{display:grid;grid-template-columns:1fr minmax(210px,300px);gap:18px;align-items:center}.run-detection-grid>label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#91a5b8}.run-detection-grid select{display:block;width:100%;margin-top:7px;background:#0d1825;border:1px solid #294258;color:#fff;padding:12px}.run-detection-grid .run-type-tag{font-size:10px;padding:6px 9px}.run-detection-grid .note{margin-top:9px}@media(max-width:900px){.run-detection-grid{grid-template-columns:1fr}}
+
+/* v0.5.2: make mixed-run classification explicit in Multi-Run Analysis */
+.run-type-cell{min-width:150px}
+.run-type-cell .run-type-tag{display:inline-flex;margin-bottom:7px}
+.run-type-cell .run-type-input{display:block;width:100%}
+.detection-state{display:block;margin-top:5px}
+.detection-state.auto{opacity:.78}
+.detection-state.manual{font-weight:700}
