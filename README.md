@@ -6,7 +6,7 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
-## v0.5.1 — Incremental multi-run loading and compact environment controls
+## v0.5.2 — Incremental multi-run loading and compact environment controls
 
 - Compare Runs now **adds newly selected activity files to the existing comparison** instead of replacing the current set.
 - Duplicate files are ignored when their file identity matches an activity already loaded.

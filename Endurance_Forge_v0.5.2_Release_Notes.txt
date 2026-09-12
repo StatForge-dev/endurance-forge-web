@@ -1,0 +1,18 @@
+Endurance Forge v0.5.2 — Explicit Run Type in Multi-Run Analysis
+
+CHANGES
+- Added a prominent Run Type column to the Multi-Run Analysis input table.
+- Each run displays an Outdoor or Treadmill badge.
+- The Run Type column shows whether the classification is automatic or a manual override.
+- Automatic classifications display detector confidence.
+- The existing selector remains available so any run can be reclassified manually.
+- Run-by-run results now use the explicit Run Type heading and repeat the classification state.
+- Mixed-run explanatory text was updated to make the analysis behavior clearer.
+
+BEHAVIOR
+- Common running metrics continue to participate in mixed-run analysis.
+- Treadmill-specific workload and EF calculations remain treadmill-only.
+- Outdoor runs retain recorded distance/time and remain available for general comparison and heat maps.
+- Treadmill and outdoor heat-map baselines remain separated.
+
+No estimator mathematics, evidence thresholds, file parsing, or scientific methodology were changed in v0.5.2.
