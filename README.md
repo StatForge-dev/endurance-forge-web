@@ -6,7 +6,7 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
-## v0.5.2 — Incremental multi-run loading and compact environment controls
+## v0.5.3 — Incremental multi-run loading and compact environment controls
 
 - Compare Runs now **adds newly selected activity files to the existing comparison** instead of replacing the current set.
 - Duplicate files are ignored when their file identity matches an activity already loaded.
@@ -156,3 +156,13 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - The relationship heat map standardizes metrics within run type before mixed-type correlations are calculated.
 - Optional temperature/humidity remains specific to indoor/treadmill sessions.
 - FIT import now reads record-position latitude/longitude so outdoor FIT activities can be recognized from GPS data when position fields are present.
+
+
+## v0.5.3 analysis additions
+- Pace–HR efficiency from speed relative to heart-rate reserve, including first-half vs second-half change.
+- Expanded HR-reserve intensity summary.
+- Outdoor elevation gain/loss/range from a smoothed altitude trace.
+- Running-power summary and first-half vs second-half progression when power exists.
+- Rule-based Run Insights tied directly to reported metrics.
+- Pace/HRR efficiency added to Multi-Run run-by-run results and personal-baseline heat maps.
+- Outdoor charts and virtual laps now use outdoor-appropriate wording.

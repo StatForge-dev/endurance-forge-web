@@ -1,0 +1,25 @@
+Endurance Forge v0.5.3 — Physiological Efficiency + Outdoor Context
+
+NEW METRICS
+- Pace–HR Efficiency: speed / HR-reserve fraction, plus first-half vs second-half change.
+- Intensity Summary: time ≥80% HRR, time ≥90% HRR, longest continuous ≥80% bout, peak HRR.
+- Outdoor Elevation Context: approximate gain, loss, range and net change from a smoothed altitude trace.
+- Running Power Context: average power and first-half vs second-half power change when present.
+
+NEW FEATURES
+- Rule-based Run Insights surfaces notable observations from drift, pace–HR efficiency, HRR intensity,
+  elevation, and power while avoiding diagnostic or causal claims.
+- Pace/HRR efficiency is added to Multi-Run results and can enter personal-baseline heat maps.
+- Outdoor pace/HR and virtual-lap wording now uses recorded outdoor distance rather than treadmill wording.
+- Outdoor charts no longer present the treadmill EF stable window as an outdoor analysis feature.
+
+METHOD NOTES
+- Pace–HR efficiency = speed (mph) / HRR fraction. The absolute index is not a universal fitness score.
+- Outdoor terrain and wind are not yet normalized.
+- Elevation gain/loss uses a lightly smoothed trace and 0.75 m deadband to reduce sample noise.
+- Running power is descriptive only and does not modify the treadmill EF model.
+- HRR thresholds are Endurance Forge analytical bands, not Garmin/device-specific zones.
+
+UNCHANGED
+- EF aerobic-fitness estimator mathematics and evidence thresholds.
+- v0.5.2 file parsers and automatic outdoor/treadmill classification.
