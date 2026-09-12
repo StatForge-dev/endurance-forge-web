@@ -16,8 +16,10 @@ export function inspectFit(input){const core=parseCore(input), {raw,messages}=co
       const lat=semicirclesToDegrees(fieldSint32(raw,m,0)),lon=semicirclesToDegrees(fieldSint32(raw,m,1));
       const cadenceBase=field(raw,m,4), fractionalCadence=field(raw,m,53,128);
       const cadence=finite(cadenceBase)?cadenceBase+(finite(fractionalCadence)?fractionalCadence:0):NaN;
+      const enhancedAltitudeRaw=field(raw,m,78,5), standardAltitudeRaw=field(raw,m,2,5);
+      const elevationM=finite(enhancedAltitudeRaw)?enhancedAltitudeRaw-500:(finite(standardAltitudeRaw)?standardAltitudeRaw-500:NaN);
       records.push({
-        timestamp:field(raw,m,253),hr:field(raw,m,3),cadence,distanceM:d,lat,lon,
+        timestamp:field(raw,m,253),hr:field(raw,m,3),cadence,distanceM:d,lat,lon,elevationM,powerW:field(raw,m,7),
         speedMps:finite(field(raw,m,73,1000))?field(raw,m,73,1000):field(raw,m,6,1000),
         verticalOscillationMm:field(raw,m,39,10),
         groundContactTimeMs:field(raw,m,41,10),

@@ -59,6 +59,7 @@ function finalize(activity) {
     groundContactBalanceSamples: activity.records.some(r=>finite(r.groundContactBalancePct)),
     gpsTrack: activity.records.some(r=>finite(r.lat)&&finite(r.lon)),
     elevation: activity.records.some(r=>finite(r.elevationM)),
+    powerSamples: activity.records.some(r=>finite(r.powerW)),
     laps: (activity.laps || []).length > 0,
     correctedFileExport: activity.format === 'FIT'
   };
@@ -94,8 +95,9 @@ function tcxToActivity(text, fileName) {
       timestampMs:parseTime(textOf(firstDesc(tp,'Time'))),
       distanceM:numberOf(firstDesc(tp,'DistanceMeters')),
       hr:numberOf(firstDesc(hrNode,'Value')),
-      cadence:numberOf(firstDesc(tp,'Cadence')),
-      speedMps:speedCandidates[0] ?? NaN,
+      cadence:(()=>{const c=numberOf(firstDesc(tp,'Cadence'));return finite(c)?c:extNumber(['runcadence','run_cadence','cadence']);})(),
+      speedMps:speedCandidates[0] ?? extNumber(['speed']),
+      powerW:extNumber(['watts','power']),
       elevationM:numberOf(firstDesc(tp,'AltitudeMeters')),
       verticalOscillationMm:extNumber(['verticaloscillation','vertical_oscillation']),
       verticalRatioPct:extNumber(['verticalratio','vertical_ratio']),
@@ -130,7 +132,7 @@ function gpxToActivity(text, fileName) {
     const dist=byLocal(['distance','distancemeters']);
     return {
       timestampMs:parseTime(textOf(firstDesc(p,'time'))),
-      distanceM:numberOf(dist), hr:numberOf(hr), cadence:numberOf(cad), speedMps:numberOf(speed),
+      distanceM:numberOf(dist), hr:numberOf(hr), cadence:numberOf(cad), speedMps:numberOf(speed), powerW:numberOf(byLocal(['power','watts'])),
       elevationM:numberOf(firstDesc(p,'ele')),
       verticalOscillationMm:numberOf(byLocal(['verticaloscillation','vertical_oscillation'])),
       verticalRatioPct:numberOf(byLocal(['verticalratio','vertical_ratio'])),
@@ -148,7 +150,7 @@ function gpxToActivity(text, fileName) {
 
 function fitToActivity(bytes,fileName) {
   const x=inspectFit(bytes);
-  const records=x.records.map(r=>({timestampMs:finite(r.timestamp)?(r.timestamp+631065600)*1000:NaN, distanceM:r.distanceM, hr:r.hr, cadence:r.cadence, speedMps:r.speedMps, elevationM:NaN, lat:r.lat, lon:r.lon, verticalOscillationMm:r.verticalOscillationMm, verticalRatioPct:r.verticalRatioPct, groundContactTimeMs:r.groundContactTimeMs, groundContactBalancePct:r.groundContactBalancePct, stepLengthM:r.stepLengthM}));
+  const records=x.records.map(r=>({timestampMs:finite(r.timestamp)?(r.timestamp+631065600)*1000:NaN, distanceM:r.distanceM, hr:r.hr, cadence:r.cadence, speedMps:r.speedMps, elevationM:r.elevationM, powerW:r.powerW, lat:r.lat, lon:r.lon, verticalOscillationMm:r.verticalOscillationMm, verticalRatioPct:r.verticalRatioPct, groundContactTimeMs:r.groundContactTimeMs, groundContactBalancePct:r.groundContactBalancePct, stepLengthM:r.stepLengthM}));
   return finalize({format:'FIT',fileName,sourceLabel:'FIT activity',sport:'Running',recordedDistanceM:x.originalDistanceM,recordedTimerS:x.originalTimerS,recordedElapsedS:x.originalElapsedS,avgHr:x.avgHr,maxHr:x.maxHr,laps:x.laps,records,runningDynamicsSummary:x.runningDynamicsSummary,rawBytes:bytes,fitInfo:x});
 }
 
@@ -165,6 +167,21 @@ export async function importActivity(file) {
   return format==='TCX' ? tcxToActivity(text,file.name) : gpxToActivity(text,file.name);
 }
 
+export function inferRunType(activity) {
+  const pts=(activity?.records||[]).filter(r=>finite(r.lat)&&finite(r.lon));
+  if (pts.length < 10) return {type:'treadmill',confidence:'moderate',reason:'No sustained GPS track detected.'};
+  let pathM=0, segments=0;
+  for (let i=1;i<pts.length;i++) {
+    const d=haversineM(pts[i-1],pts[i]);
+    if (finite(d) && d>=0.5 && d<250) { pathM+=d; segments++; }
+  }
+  const directM=haversineM(pts[0],pts.at(-1));
+  const movingGps=segments>=8 && pathM>=150;
+  if (movingGps) return {type:'outdoor',confidence:'high',reason:`Sustained GPS movement detected (${pts.length} positions, ${(pathM/1000).toFixed(1)} km tracked).`};
+  if (pts.length>=20 && finite(directM) && directM>=100) return {type:'outdoor',confidence:'moderate',reason:'GPS positions show meaningful outdoor movement.'};
+  return {type:'treadmill',confidence:'low',reason:'GPS data were present but did not show a sustained moving track.'};
+}
+
 export function correctActivityFile(activity,targetDistanceM,targetTimerS) {
   if (activity.format!=='FIT') throw new Error(`Corrected ${activity.format} export is not implemented yet. Analysis and treadmill overrides still work for this format.`);
   return correctFit(activity.rawBytes,targetDistanceM,targetTimerS);
@@ -175,6 +192,6 @@ export function capabilityRows(a) {
     ['Distance',a.capabilities.distance],['Duration',a.capabilities.duration],['Heart-rate summary',a.capabilities.heartRateSummary],
     ['Heart-rate samples',a.capabilities.heartRateSamples],['Cadence samples',a.capabilities.cadenceSamples],['Speed samples',a.capabilities.speedSamples],
     ['Stride length',a.capabilities.strideLengthSamples],['Vertical oscillation',a.capabilities.verticalOscillationSamples],['Vertical ratio',a.capabilities.verticalRatioSamples],
-    ['Ground contact time',a.capabilities.groundContactTimeSamples],['GCT balance',a.capabilities.groundContactBalanceSamples],['GPS track',a.capabilities.gpsTrack],['Elevation',a.capabilities.elevation],['Laps',a.capabilities.laps]
+    ['Ground contact time',a.capabilities.groundContactTimeSamples],['GCT balance',a.capabilities.groundContactBalanceSamples],['Power',a.capabilities.powerSamples],['GPS track',a.capabilities.gpsTrack],['Elevation',a.capabilities.elevation],['Laps',a.capabilities.laps]
   ];
 }
