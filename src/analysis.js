@@ -103,6 +103,72 @@ function calcDrift(seg) {
   return {value:normalized,rawHrDrift:raw,speedChange,firstHr:hr1,secondHr:hr2,firstSpeed:sp1,secondSpeed:sp2,label:Math.abs(speedChange)<=5?'HR drift':'Aerobic decoupling'};
 }
 
+
+function calcPaceHrEfficiency(seg,maxHr,restHr) {
+  const mx=Number(maxHr),rest=Number(restHr);
+  if(!(mx>rest+20))return null;
+  const usable=seg.filter(r=>finite(r.hr)&&finite(r.speedMph)&&r.speedMph>1);
+  if(usable.length<40)return null;
+  const mid=(usable[0].t+usable.at(-1).t)/2;
+  const halfStats=(pts)=>{
+    const hr=mean(pts.map(r=>r.hr)),speed=mean(pts.map(r=>r.speedMph));
+    const hrr=(hr-rest)/(mx-rest);
+    const index=finite(speed)&&finite(hrr)&&hrr>.20?speed/hrr:NaN;
+    return {hr,speed,hrr,index};
+  };
+  const first=halfStats(usable.filter(r=>r.t<=mid)),second=halfStats(usable.filter(r=>r.t>mid));
+  if(!finite(first.index)||!finite(second.index))return null;
+  const avgHr=mean(usable.map(r=>r.hr)),avgSpeed=mean(usable.map(r=>r.speedMph)),avgHrr=(avgHr-rest)/(mx-rest);
+  const index=finite(avgSpeed)&&avgHrr>.20?avgSpeed/avgHrr:NaN;
+  const changePct=(second.index/first.index-1)*100;
+  return {index,changePct,first,second,avgHr,avgSpeed,avgHrr};
+}
+
+function calcIntensity(seg,maxHr,restHr) {
+  const mx=Number(maxHr),rest=Number(restHr);
+  if(!(mx>rest+20))return null;
+  const rows=seg.filter(r=>finite(r.t)&&finite(r.hr));
+  if(rows.length<2)return null;
+  let totalS=0,above80S=0,above90S=0,longest80S=0,longest90S=0,cur80=0,cur90=0,peakHrr=-Infinity;
+  for(let i=1;i<rows.length;i++){
+    const dt=Math.max(0,Math.min(20,rows[i].t-rows[i-1].t));
+    if(!dt)continue;
+    const hrr=(rows[i-1].hr-rest)/(mx-rest);
+    if(!finite(hrr))continue;
+    totalS+=dt; peakHrr=Math.max(peakHrr,hrr);
+    if(hrr>=.80){above80S+=dt;cur80+=dt;longest80S=Math.max(longest80S,cur80)}else cur80=0;
+    if(hrr>=.90){above90S+=dt;cur90+=dt;longest90S=Math.max(longest90S,cur90)}else cur90=0;
+  }
+  if(!totalS)return null;
+  return {totalS,above80S,above90S,longest80S,longest90S,peakHrr:finite(peakHrr)?peakHrr:NaN};
+}
+
+function calcElevation(seg) {
+  const raw=seg.map(r=>r.elevationM).filter(finite);
+  if(raw.length<8)return null;
+  const sm=smooth(raw,3);
+  let gainM=0,lossM=0,anchor=sm[0];
+  for(let i=1;i<sm.length;i++){
+    const d=sm[i]-anchor;
+    if(Math.abs(d)>=0.75){
+      if(d>0)gainM+=d; else lossM+=-d;
+      anchor=sm[i];
+    }
+  }
+  return {gainM,lossM,netM:sm.at(-1)-sm[0],minM:Math.min(...sm),maxM:Math.max(...sm),rangeM:Math.max(...sm)-Math.min(...sm)};
+}
+
+function calcPower(seg) {
+  const usable=seg.filter(r=>finite(r.powerW)&&r.powerW>0);
+  if(usable.length<10)return null;
+  const mid=(usable[0].t+usable.at(-1).t)/2;
+  const first=mean(usable.filter(r=>r.t<=mid).map(r=>r.powerW));
+  const second=mean(usable.filter(r=>r.t>mid).map(r=>r.powerW));
+  const avg=mean(usable.map(r=>r.powerW));
+  const changePct=finite(first)&&first>0&&finite(second)?(second/first-1)*100:NaN;
+  return {avgW:avg,firstW:first,secondW:second,changePct};
+}
+
 function windowStats(points) {
   const usable=points.filter(r=>finite(r.hr)&&finite(r.speedMph)&&r.speedMph>1);
   if(usable.length<30)return null;
@@ -198,7 +264,9 @@ export function analyzeTreadmillActivity(activity,{targetDistanceM,targetTimerS,
       verticalOscillationMm:finite(r.verticalOscillationMm)?r.verticalOscillationMm:NaN,
       verticalRatioPct:finite(r.verticalRatioPct)?r.verticalRatioPct:NaN,
       groundContactTimeMs:finite(r.groundContactTimeMs)?r.groundContactTimeMs:NaN,
-      groundContactBalancePct:finite(r.groundContactBalancePct)?r.groundContactBalancePct:NaN
+      groundContactBalancePct:finite(r.groundContactBalancePct)?r.groundContactBalancePct:NaN,
+      elevationM:finite(r.elevationM)?r.elevationM:NaN,
+      powerW:finite(r.powerW)?r.powerW:NaN
     };
   }).filter(r=>finite(r.t));
   const auto=findPrimaryRun(series.map(r=>r.t),series.map(r=>r.speedMph));
@@ -210,10 +278,14 @@ export function analyzeTreadmillActivity(activity,{targetDistanceM,targetTimerS,
   const seg=subset(series,analysisStart,endS);
   const avgSpeed=mean(seg.map(r=>r.speedMph)),avgHr=mean(seg.map(r=>r.hr));
   const drift=calcDrift(seg);
+  const paceHrEfficiency=calcPaceHrEfficiency(seg,maxHr,restHr);
+  const intensity=calcIntensity(seg,maxHr,restHr);
+  const elevation=calcElevation(seg);
+  const power=calcPower(seg);
   const fitnessWindow=findStableFitnessWindow(seg);
   const dataQuality=assessDataQuality(fitnessWindow);
   const fitness=fitnessEstimate(fitnessWindow,Number(gradePct)||0,Number(maxHr),Number(restHr),drift,dataQuality);
   const walking=series.filter(r=>r.t<startS);
   const preDistanceMph=mean(walking.map(r=>r.speedMph));
-  return {available:true,series,auto,startS,endS,analysisStartS:analysisStart,analysisEndS:endS,segmentDurationS:endS-startS,analysisDurationS:endS-analysisStart,avgSpeedMph:avgSpeed,avgHr,drift,fitness,fitnessWindow,dataQuality,preSegmentDurationS:startS,preSegmentAvgSpeedMph:preDistanceMph};
+  return {available:true,series,auto,startS,endS,analysisStartS:analysisStart,analysisEndS:endS,segmentDurationS:endS-startS,analysisDurationS:endS-analysisStart,avgSpeedMph:avgSpeed,avgHr,drift,paceHrEfficiency,intensity,elevation,power,fitness,fitnessWindow,dataQuality,preSegmentDurationS:startS,preSegmentAvgSpeedMph:preDistanceMph};
 }
