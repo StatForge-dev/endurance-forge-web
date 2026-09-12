@@ -184,12 +184,12 @@
 .trend-line.treadmill{
   stroke:var(--ef-chart-treadmill-line)!important;
   stroke-opacity:1!important;
-  stroke-width:2.8!important;
+  stroke-width:1.55!important;
 }
 .trend-line.outdoor{
   stroke:var(--ef-chart-outdoor-line)!important;
   stroke-opacity:.95!important;
-  stroke-width:2.8!important;
+  stroke-width:1.55!important;
 }
 .trend-point{
   stroke:var(--ef-chart-point-stroke)!important;
@@ -234,4 +234,9 @@
 }
 .trend-legend span{
   opacity:1!important;
+}
+
+/* v0.5.7 chart refinement: thinner longitudinal trend lines */
+.trend-line{
+  stroke-width:1.55!important;
 }
