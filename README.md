@@ -1,12 +1,12 @@
-# Endurance Forge Web v0.4.9 — Public Beta
+# Endurance Forge
 
-Browser-local treadmill and endurance activity analysis for FIT, TCX, and GPX files.
+**Advanced Running Analytics** for FIT, TCX, and GPX activities.
 
+Endurance Forge is a browser-based running analytics project for outdoor and treadmill running. It focuses on physiological response, pace, running dynamics, workout structure, and multi-run patterns, while retaining unusually deep treadmill support such as corrected distance/time, grade-aware workload modeling, indoor environment context, and the EF Aerobic Fitness Estimate.
 
+Raw activity files are processed locally in the browser.
 
-
-
-## v0.4.9 — Incremental multi-run loading and compact environment controls
+## v0.5.0 — Incremental multi-run loading and compact environment controls
 
 - Compare Runs now **adds newly selected activity files to the existing comparison** instead of replacing the current set.
 - Duplicate files are ignored when their file identity matches an activity already loaded.
