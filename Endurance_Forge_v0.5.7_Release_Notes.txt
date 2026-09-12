@@ -1,0 +1,21 @@
+Endurance Forge v0.5.7 — Trend Chart Line Refinement
+
+VISUAL UPDATE
+- Reduced Multi-Run trend line width to 1.55 px for a cleaner, more professional presentation.
+- Retains the high-contrast chart colors introduced in v0.5.6:
+  * treadmill = bright blue/cyan
+  * outdoor = light gray
+- Data-point marker visibility remains unchanged.
+- Hover highlighting remains unchanged.
+
+AFFECTED CHARTS
+- Pace–HR Efficiency Trend
+- Aerobic Decoupling Trend
+- Running Dynamics Trend
+
+UNCHANGED
+- Pace vs HRR scatter markers.
+- All chart calculations and underlying run data.
+- Multi-Run filtering and run-type separation.
+- Virtual Lap Analysis.
+- EF estimator and evidence rules.

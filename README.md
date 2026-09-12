@@ -6,7 +6,7 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
-## v0.5.6 — Incremental multi-run loading and compact environment controls
+## v0.5.7 — Incremental multi-run loading and compact environment controls
 
 - Compare Runs now **adds newly selected activity files to the existing comparison** instead of replacing the current set.
 - Duplicate files are ignored when their file identity matches an activity already loaded.
@@ -158,7 +158,7 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - FIT import now reads record-position latitude/longitude so outdoor FIT activities can be recognized from GPS data when position fields are present.
 
 
-## v0.5.6 analysis additions
+## v0.5.7 analysis additions
 - Pace–HR efficiency from speed relative to heart-rate reserve, including first-half vs second-half change.
 - Expanded HR-reserve intensity summary.
 - Outdoor elevation gain/loss/range from a smoothed altitude trace.
@@ -168,7 +168,7 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - Outdoor charts and virtual laps now use outdoor-appropriate wording.
 
 
-## v0.5.6 multi-run overview
+## v0.5.7 multi-run overview
 - New Multi-Run Snapshot with run counts, distance/time totals and robust median values for pace, HR, HRR, Pace/HRR efficiency and aerobic decoupling.
 - New Across-Run Insights with expandable “Why?” explanations.
 - New Pace–HR Efficiency longitudinal trend.
@@ -180,7 +180,7 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - Existing heat maps remain as complementary “what was unusual?” and “what moves together?” views.
 
 
-## v0.5.6 virtual-lap visualization
+## v0.5.7 virtual-lap visualization
 
 - Replaces the ambiguous single-line virtual-lap chart with two aligned, clearly labeled charts.
 - Upper chart always shows pace by virtual lap.
@@ -191,7 +191,7 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - The detailed virtual-lap table remains below the charts.
 
 
-## v0.5.6 chart visibility update
+## v0.5.7 chart visibility update
 
 - Reworked Multi-Run chart colors for strong contrast on the dark interface.
 - Treadmill points/lines now use a bright blue/cyan treatment.
@@ -199,3 +199,11 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - Scatter points are slightly larger and all chart points use stronger outlines.
 - Hovered points receive a brighter highlight for easier inspection.
 - Trend legends now use the same visible marker colors as the plotted data.
+
+
+## v0.5.7 chart styling refinement
+
+- Reduced Multi-Run longitudinal trend line width from the heavier v0.5.6 presentation to a thinner 1.55 px treatment.
+- Keeps the high-contrast treadmill/outdoor colors and visible data points introduced in v0.5.6.
+- Applies consistently to Pace–HR Efficiency, Aerobic Decoupling, and Running Dynamics trend charts.
+- Scatter-plot markers and chart calculations are unchanged.
