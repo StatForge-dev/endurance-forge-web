@@ -1,0 +1,17 @@
+Endurance Forge v0.5.1
+
+Parser and activity-workflow fixes
+
+- FIT elevation support added. Endurance Forge now reads enhanced_altitude when available and falls back to standard altitude, applying the FIT scale and offset correctly.
+- FIT record power is now read when present.
+- TCX Garmin RunCadence is now recognized in addition to standard Cadence.
+- TCX/GPX power samples are recognized when present.
+- Detected Data Capabilities now includes Power.
+- Added robust outdoor/treadmill auto-detection based on sustained GPS movement rather than a single coordinate.
+- Single Run Analyzer now branches by activity type:
+  * Outdoor: recorded distance/time/GPS/elevation/sensor data; no treadmill truth panel or treadmill EF estimate.
+  * Treadmill/indoor: treadmill distance/time/grade inputs, environment context, correction export, and treadmill EF model.
+- Manual activity-type override remains available.
+- Multi-Run Analysis now uses the same robust activity-type detector.
+
+No EF estimator mathematics or evidence thresholds were changed.
