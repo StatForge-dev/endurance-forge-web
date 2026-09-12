@@ -1,0 +1,27 @@
+Endurance Forge v0.5.6 — Multi-Run Chart Visibility
+
+FIX
+- Corrected poor visibility of Multi-Run chart data points on the dark theme.
+- Black/dark treadmill points could blend into the chart background and legend.
+
+NEW VISUAL ENCODING
+- Treadmill:
+  bright blue/cyan points and lines.
+- Outdoor:
+  light gray points and lines.
+- Both use strong dark outlines so markers remain distinct.
+- Scatter-plot points are slightly larger than trend-chart points.
+- Hovering a point now adds a high-contrast highlight and subtle glow.
+- Legends use the same marker colors as the charts.
+
+AFFECTED CHARTS
+- Pace–HR Efficiency Trend
+- Aerobic Decoupling Trend
+- Pace vs HRR Scatter
+- Running Dynamics Trend
+
+UNCHANGED
+- Chart data and calculations.
+- Multi-Run filtering and run-type separation.
+- v0.5.5 Virtual Lap Analysis.
+- EF estimator and evidence rules.
