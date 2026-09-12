@@ -7,7 +7,7 @@ import { analyzeTreadmillActivity } from './analysis.js';
 import { combineAerobicFitness } from './multirun.js';
 
 const MILES_PER_METER=1/1609.344, supported=['FIT','TCX','GPX'];
-const APP_VERSION='0.5.5';
+const APP_VERSION='0.5.6';
 function Logo(){return <div className="brand"><div className="mark">EF</div><div><strong>ENDURANCE FORGE</strong><span>ADVANCED RUNNING ANALYTICS</span></div></div>}
 const pagePaths={home:'/',analyze:'/analyze/',compare:'/compare/',guide:'/metrics/',method:'/methodology/',science:'/science/'};
 const pathPages={'/':'home','/analyze':'analyze','/analyze/':'analyze','/compare':'compare','/compare/':'compare','/metrics':'guide','/metrics/':'guide','/methodology':'method','/methodology/':'method','/science':'science','/science/':'science'};
@@ -380,8 +380,8 @@ function TrendSvg({rows,valueKey,title,subtitle,formatValue,invert=false}){
  return <div className="viz-card trend-card"><div className="viz-head"><div><span>{title}</span><strong>{subtitle}</strong></div><small>{usable.length} usable runs</small></div><svg className="multi-trend-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title} across selected runs`}><line className="chart-axis" x1={L} y1={H-B} x2={W-R} y2={H-B}/><line className="chart-axis" x1={L} y1={T} x2={L} y2={H-B}/>
   {[0,.5,1].map((q,i)=>{const v=lo+(hi-lo)*q,yy=y(v);return <g key={i}><line className="chart-grid" x1={L} y1={yy} x2={W-R} y2={yy}/><text className="chart-label" x={L-8} y={yy+4} textAnchor="end">{formatValue(v)}</text></g>})}
   {groups.map(g=><polyline key={g.type} className={'trend-line '+g.type} points={pathFor(g)} fill="none"/>)}
-  {usable.map((r,i)=><g key={r.id}><circle className={'trend-point '+r.runType} cx={x(i)} cy={y(r[valueKey])} r="4.5"><title>{`${runDateLabel(r)} · ${formatValue(r[valueKey])} · ${r.runType}`}</title></circle>{(i===0||i===usable.length-1||usable.length<=6)&&<text className="chart-x-label" x={x(i)} y={H-16} textAnchor={i===0?'start':i===usable.length-1?'end':'middle'}>{runDateLabel(r)}</text>}</g>)}
- </svg><div className="trend-legend"><span><i className="legend-dot treadmill"/>Treadmill</span><span><i className="legend-dot outdoor"/>Outdoor</span></div></div>
+  {usable.map((r,i)=><g key={r.id}><circle className={'trend-point '+r.runType} data-run-type={r.runType} cx={x(i)} cy={y(r[valueKey])} r="5.2"><title>{`${runDateLabel(r)} · ${formatValue(r[valueKey])} · ${r.runType}`}</title></circle>{(i===0||i===usable.length-1||usable.length<=6)&&<text className="chart-x-label" x={x(i)} y={H-16} textAnchor={i===0?'start':i===usable.length-1?'end':'middle'}>{runDateLabel(r)}</text>}</g>)}
+ </svg><div className="trend-legend"><span><i className="legend-dot treadmill" aria-hidden="true"/>Treadmill</span><span><i className="legend-dot outdoor" aria-hidden="true"/>Outdoor</span></div></div>
 }
 function PaceHrrScatter({rows}){
  const usable=rows.filter(r=>Number.isFinite(r.hrr)&&Number.isFinite(paceSeconds(r)));
@@ -391,8 +391,8 @@ function PaceHrrScatter({rows}){
  return <div className="viz-card trend-card"><div className="viz-head"><div><span>PACE VS HRR</span><strong>How pace relates to cardiovascular effort</strong></div><small>faster pace is higher on chart</small></div><svg className="multi-trend-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pace versus heart-rate reserve scatter plot"><line className="chart-axis" x1={L} y1={H-B} x2={W-R} y2={H-B}/><line className="chart-axis" x1={L} y1={T} x2={L} y2={H-B}/>
  {[0,.5,1].map((q,i)=>{const xv=xmin+(xmax-xmin)*q;return <g key={'x'+i}><line className="chart-grid" x1={x(xv)} y1={T} x2={x(xv)} y2={H-B}/><text className="chart-label" x={x(xv)} y={H-24} textAnchor="middle">{Math.round(xv)}%</text></g>})}
  {[0,.5,1].map((q,i)=>{const pv=ymin+(ymax-ymin)*q,yy=y(pv);return <g key={'y'+i}><line className="chart-grid" x1={L} y1={yy} x2={W-R} y2={yy}/><text className="chart-label" x={L-8} y={yy+4} textAnchor="end">{fmtPaceSeconds(pv).replace('/mi','')}</text></g>})}
- {usable.map(r=><circle key={r.id} className={'trend-point '+r.runType} cx={x(r.hrr*100)} cy={y(paceSeconds(r))} r="5"><title>{`${runDateLabel(r)} · ${r.pace} · ${Math.round(r.hrr*100)}% HRR · ${r.runType}`}</title></circle>)}
- <text className="chart-axis-title" x={(L+W-R)/2} y={H-5} textAnchor="middle">Heart-rate reserve</text><text className="chart-axis-title" transform={`translate(14 ${(T+H-B)/2}) rotate(-90)`} textAnchor="middle">Pace (min/mi)</text></svg><div className="trend-legend"><span><i className="legend-dot treadmill"/>Treadmill</span><span><i className="legend-dot outdoor"/>Outdoor</span></div><p className="viz-note">Points are intentionally not fitted with one mixed trend line. Treadmill and outdoor runs can differ systematically because terrain, grade, wind, and measurement conditions are different.</p></div>
+ {usable.map(r=><circle key={r.id} className={'trend-point scatter-point '+r.runType} data-run-type={r.runType} cx={x(r.hrr*100)} cy={y(paceSeconds(r))} r="6.2"><title>{`${runDateLabel(r)} · ${r.pace} · ${Math.round(r.hrr*100)}% HRR · ${r.runType}`}</title></circle>)}
+ <text className="chart-axis-title" x={(L+W-R)/2} y={H-5} textAnchor="middle">Heart-rate reserve</text><text className="chart-axis-title" transform={`translate(14 ${(T+H-B)/2}) rotate(-90)`} textAnchor="middle">Pace (min/mi)</text></svg><div className="trend-legend"><span><i className="legend-dot treadmill" aria-hidden="true"/>Treadmill</span><span><i className="legend-dot outdoor" aria-hidden="true"/>Outdoor</span></div><p className="viz-note">Points are intentionally not fitted with one mixed trend line. Treadmill and outdoor runs can differ systematically because terrain, grade, wind, and measurement conditions are different.</p></div>
 }
 function DynamicsTrend({rows}){
  const[metric,setMetric]=useState('cadence');
