@@ -247,3 +247,80 @@
 .heat-actions{display:flex;justify-content:flex-end;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 10px}.heat-actions button{background:#101d2b;color:#b9cad8;border:1px solid #294258;padding:6px 9px;font-size:9px;cursor:pointer}.heat-actions button:hover{border-color:#5fa0f3;color:#fff}.heat-download{position:relative}.heat-download>div{display:none;position:absolute;right:0;top:100%;z-index:20;min-width:76px;background:#0d1825;border:1px solid #294258;box-shadow:0 8px 18px rgba(0,0,0,.3)}.heat-download:hover>div,.heat-download:focus-within>div{display:flex;flex-direction:column}.heat-download>div button{border:0;border-bottom:1px solid #203548;text-align:left;width:100%}.heat-download>div button:last-child{border-bottom:0}
 .heatmap-card:fullscreen{overflow:auto;background:#09131e;padding:20px}.heatmap-card:fullscreen .heat-scroll{overflow:visible}.heatmap-card:fullscreen .heat-grid,.heatmap-card:fullscreen .corr-grid{min-width:0}
 .heat-compact .heat-grid,.heat-compact .corr-grid{min-width:0!important;gap:2px}.heat-compact .heat-head,.heat-compact .heat-row-label,.heat-compact .heat-run{padding:6px 4px;font-size:8px;letter-spacing:.2px}.heat-compact .heat-cell,.heat-compact .corr-cell{min-height:42px;padding:5px 3px}.heat-compact .heat-cell b{font-size:9px}.heat-compact .heat-cell span,.heat-compact .corr-cell small{font-size:7px}@media(max-width:900px){.heat-actions{justify-content:flex-start}.heat-compact .heat-grid,.heat-compact .corr-grid{min-width:680px!important}}
+
+/* v0.5.11 site-wide visual refresh
+   Preserve Endurance Forge's dark analytical identity while increasing
+   surface separation, contrast, and overall brightness. */
+:root{
+  --bg:#132538;
+  --bg-deep:#0d1b2a;
+  --panel:#1b3348;
+  --panel-2:#213d54;
+  --panel-3:#28475f;
+  --line:#3d5f78;
+  --line-soft:#304f68;
+  --text:#f6f9fc;
+  --muted:#b6c7d5;
+  --muted-2:#91a9bb;
+  --accent:#49a2ff;
+}
+html,:root{background:var(--bg);color:var(--text)}
+body{
+  color:var(--text);
+  background:
+    radial-gradient(circle at 82% -12%,rgba(73,162,255,.20),transparent 34%),
+    linear-gradient(180deg,#162a3e 0%,var(--bg) 48%,#102235 100%);
+}
+header{
+  background:rgba(13,27,42,.94);
+  border-bottom-color:var(--line);
+  box-shadow:0 5px 22px rgba(3,12,21,.20);
+}
+.brand span,footer{color:var(--muted-2)}
+nav button,.link,.hero p,.page-title p,.feature-grid p,.method-grid p,.prose p,
+.result-panel p,.roadmap p,.references li{color:var(--muted)}
+.eyebrow,.icon,.panel-head span,.method-grid b{color:var(--accent)}
+.secondary{background:var(--panel-2);border-color:var(--line);color:var(--text)}
+.feature-grid{background:var(--line);border-color:var(--line)}
+.feature-grid article,.panel,.roadmap,.method-grid article{background:var(--panel)}
+.drop{
+  border-color:#52758f;
+  background:linear-gradient(180deg,rgba(40,71,95,.92),rgba(27,51,72,.94));
+}
+.drop.drag,.drop:hover{border-color:var(--accent);background:#24445f}
+.filebar,.form-grid input,.segment-controls input,.profile-row input,.format-chips span,.format-tag,
+.cap,.disclaimer,.science-status,.claim-grid>div,.environment-grid>div,.environment-result>div,
+.heatmap-pending,.heat-filter,.run-detection-grid select,.virtual-lap-controls select{
+  background:var(--bg-deep);
+  border-color:var(--line);
+}
+.metric{background:var(--panel-2);border-color:var(--line-soft)}
+.result-panel{background:linear-gradient(110deg,var(--panel),var(--panel-2));border-color:var(--line)}
+.table-panel,.heatmap-card,.trend-card{background:var(--panel)}
+th{background:#203b52;color:#a9bfd0;border-bottom-color:var(--line)}
+td{border-bottom-color:var(--line-soft)}
+tbody tr:nth-child(even){background:rgba(50,82,106,.13)}
+tbody tr:hover{background:rgba(73,162,255,.07)}
+.chart-wrap{background:#172d42;border-color:var(--line)}
+.lap-mini-chart{background:#172d42;border-color:var(--line)}
+.heat-head,.heat-row-label,.heat-run{background:#203b52;color:#abc0d0}
+.heat-run{color:#eef5fa}
+.heat-missing{background:#172b3d;color:#718b9f}
+.heat-0{background:#29475c;color:#edf5fa}
+.heat-neg-1{background:#23606a;color:#e8fcfd}
+.heat-neg-2{background:#247883;color:#f1feff}
+.heat-neg-3{background:#248f99;color:#fff}
+.heat-pos-1{background:#59477b;color:#f4efff}
+.heat-pos-2{background:#715b9b;color:#faf7ff}
+.heat-pos-3{background:#896db8;color:#fff}
+.heat-self{background:#35566e;color:#eef6fb}
+.heat-cell,.corr-cell{border-color:rgba(220,237,248,.11)}
+.heat-actions button,.heat-filter button{background:#203b52;color:#d0deea;border-color:var(--line)}
+.heat-actions button:hover,.heat-filter button.active{border-color:var(--accent);background:#294b66;color:#fff}
+.heat-download>div{background:#1a3247;border-color:var(--line)}
+.heat-download>div button{border-bottom-color:var(--line-soft)}
+.heatmap-card:fullscreen{background:#132538}
+.form-grid label,.segment-controls label,.profile-row label,.run-detection-grid>label{color:#aec1d0}
+.note,.metric span,.metric small,.actions span,.panel-head small,.environment-result span,
+.environment-grid label,.heat-filter>div:first-child span{color:var(--muted-2)}
+footer{border-top-color:var(--line);background:#0f2031}
