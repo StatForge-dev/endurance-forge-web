@@ -1,0 +1,20 @@
+Endurance Forge v0.5.14 — Comparable Running & Progress Analytics
+
+New
+- Comparable Runs analysis mode: optionally narrows the current included/run-type view to broadly similar activities using tolerant within-type distance, duration, HRR-intensity, and treadmill-grade criteria.
+- Baseline selection for Progress Analysis: selected set, first 5, first 10, last 30 days, or custom first-N runs.
+- Progress Analysis: median-based comparison of pace, Pace/HRR efficiency, HR drift, and HRR between the selected baseline and the most recent five runs.
+- Pace at Comparable HRR: within-run-type linear estimates at 70%, 75%, 80%, and 85% HRR when enough usable observations exist.
+
+Behavior
+- Manual include/exclude remains authoritative.
+- All Runs / Treadmill / Outdoor remains the primary run-type view.
+- Comparable Runs never mixes treadmill and outdoor criteria; each type is screened against its own typical values.
+- If comparable filtering would leave fewer than three observations of a run type, that type falls back to its selected runs rather than presenting a misleading tiny sample.
+- Heat maps and run-by-run results follow the active comparison set.
+- Treadmill-specific EF modeling remains unchanged and treadmill-only.
+
+Interpretation safeguards
+- Progress changes are descriptive and are not automatically labeled improvement/deterioration.
+- Pace-at-HRR is a simple within-type regression and is not presented as a threshold test or laboratory physiological measurement.
+- Terrain, environment, fatigue, workout structure, and sensor quality remain potential confounders.
