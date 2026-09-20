@@ -1,0 +1,37 @@
+Endurance Forge v0.5.12
+Multi-Run Analytical Dashboard Refresh
+
+Changes
+- Replaced the large Average HR and HR Drift per-run bar-chart block with higher-value analytical views.
+- Added a selectable Performance & Physiology Trend chart:
+  * Pace/HRR efficiency
+  * HR drift
+  * Pace
+  * HRR
+  * Average HR
+  * EF aerobic-fitness estimate
+- Added earlier-vs-later median summaries when at least four usable observations exist for a run type. These remain descriptive and do not label changes as good or bad.
+- Added a selectable Relationship Analysis scatter plot:
+  * Pace vs HRR
+  * Pace vs HR drift
+  * Pace vs ground contact time
+  * Pace vs cadence
+  * Pace vs stride length
+  * Pace vs vertical ratio
+  * HRR vs Pace/HRR efficiency
+- Preserved treadmill/outdoor visual separation in all multi-run charts.
+- Improved sparse-series behavior: a run type now needs at least three usable observations before points are connected by a trend line. One or two observations remain individual points.
+- Retained the existing selectable Running Dynamics Trend for cadence, stride length, ground contact time, vertical ratio, vertical oscillation, and running power.
+- Retained the Run Pattern Heat Map and its existing baseline-direction logic.
+- Updated application version to v0.5.12.
+
+Design intent
+The Multi-Run page now separates three analytical questions:
+1. Trend: How are performance and physiological measures changing over time?
+2. Relationship: Which measured variables move together?
+3. Pattern/outlier analysis: Which runs differ from comparable baseline behavior?
+
+Notes
+- Relationship plots are exploratory and do not imply causation.
+- Mixed treadmill/outdoor regression lines are intentionally not imposed.
+- Higher or lower values are not automatically labeled as improvement or deterioration where physiological interpretation depends on context.
