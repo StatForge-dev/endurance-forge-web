@@ -1,5 +1,13 @@
 # Endurance Forge
 
+## v0.5.11 — Site-wide visual refresh
+
+- Brighter, higher-contrast dark theme across the site.
+- Clearer separation among page background, navigation, panels, tables, and charts.
+- Improved secondary-text and border contrast.
+- Refreshed heat-map luminance while preserving the teal / neutral / violet directional logic.
+- No analytical or metric logic changes.
+
 ## v0.5.10 — Running-dynamics trend correction
 - Corrects the multi-run Stride Length trend to use the analyzed `strideLengthM` field.
 - Keeps the v0.5.8 heat-map compact/fullscreen/export controls and direction-neutral teal/amber palette unchanged.
