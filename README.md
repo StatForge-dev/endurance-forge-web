@@ -1,5 +1,10 @@
 # Endurance Forge
 
+## v0.5.9 — Running-dynamics trend correction
+- Corrects the multi-run Stride Length trend to use the analyzed `strideLengthM` field.
+- Keeps the v0.5.8 heat-map compact/fullscreen/export controls and direction-neutral teal/amber palette unchanged.
+
+
 **Advanced Running Analytics** for FIT, TCX, and GPX activities.
 
 Endurance Forge is a browser-based running analytics project for outdoor and treadmill running. It focuses on physiological response, pace, running dynamics, workout structure, and multi-run patterns, while retaining unusually deep treadmill support such as corrected distance/time, grade-aware workload modeling, indoor environment context, and the EF Aerobic Fitness Estimate.

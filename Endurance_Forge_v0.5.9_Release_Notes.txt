@@ -1,0 +1,10 @@
+Endurance Forge v0.5.9 — Running-Dynamics Trend Correction
+
+FIXED
+- Multi-run Stride Length trend now reads the analyzed strideLengthM field rather than the raw stepLengthM field.
+- Cadence, ground-contact time, vertical ratio, vertical oscillation, and running power mappings remain unchanged.
+
+HEAT MAPS
+- Retains the v0.5.8 corrected direction-from-baseline logic.
+- Retains compact view, fullscreen view, and SVG/PNG/CSV downloads.
+- Retains teal for below-baseline values and amber for above-baseline values. Colors indicate direction, not good/bad.
