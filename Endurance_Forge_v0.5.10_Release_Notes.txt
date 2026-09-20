@@ -1,0 +1,9 @@
+Endurance Forge v0.5.10
+
+Heat-map palette refinement
+
+- Preserves the existing robust-baseline heat-map logic and thresholds.
+- Replaces the brown/orange positive-deviation colors with a muted gold scale that better matches the Endurance Forge dark-blue interface.
+- Keeps teal for negative deviations and dark blue for values near baseline.
+- Updates exported PNG/SVG heat maps to use the same revised gold palette as the on-screen heat map.
+- No analytical calculations or interpretation logic were changed.

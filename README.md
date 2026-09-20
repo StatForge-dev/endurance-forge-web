@@ -1,6 +1,6 @@
 # Endurance Forge
 
-## v0.5.9 — Running-dynamics trend correction
+## v0.5.10 — Running-dynamics trend correction
 - Corrects the multi-run Stride Length trend to use the analyzed `strideLengthM` field.
 - Keeps the v0.5.8 heat-map compact/fullscreen/export controls and direction-neutral teal/amber palette unchanged.
 
