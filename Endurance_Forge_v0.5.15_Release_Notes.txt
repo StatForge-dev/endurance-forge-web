@@ -1,0 +1,8 @@
+Endurance Forge v0.5.15 — hotfix
+
+Fixes
+- Corrected a runtime ReferenceError introduced in v0.5.14 that prevented Multi-Run Analysis from rendering after activity files were loaded.
+- The new comparable-run, baseline, progress, and pace-at-comparable-HRR features referenced a non-existent runTime() helper. All calls now use the existing runTimestamp() helper.
+- Version advanced to v0.5.15 so deployment can be verified from the site header.
+
+No analytical logic, thresholds, heat-map colors, or v0.5.14 feature behavior were otherwise changed.
