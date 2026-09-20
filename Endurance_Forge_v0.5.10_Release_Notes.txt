@@ -1,9 +1,9 @@
 Endurance Forge v0.5.10
 
-Heat-map palette refinement
-
-- Preserves the existing robust-baseline heat-map logic and thresholds.
-- Replaces the brown/orange positive-deviation colors with a muted gold scale that better matches the Endurance Forge dark-blue interface.
-- Keeps teal for negative deviations and dark blue for values near baseline.
-- Updates exported PNG/SVG heat maps to use the same revised gold palette as the on-screen heat map.
-- No analytical calculations or interpretation logic were changed.
+Corrections
+- Corrected the application version constant so the site displays v0.5.10.
+- Corrected the package root folder to endurance-forge-web-v0.5.10.
+- Replaced the brown/amber-looking heat-map deviation colors with a teal/violet direction-neutral palette.
+- Preserved the existing heat-map interpretation logic: color indicates direction from the comparable baseline, not good/bad performance.
+- Pace remains semantically correct: faster (lower min/mi) is below baseline and teal; slower (higher min/mi) is above baseline and violet.
+- Retains compact/full-screen and CSV/SVG/PNG heat-map export controls.
