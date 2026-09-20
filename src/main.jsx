@@ -7,7 +7,7 @@ import { analyzeTreadmillActivity } from './analysis.js';
 import { combineAerobicFitness } from './multirun.js';
 
 const MILES_PER_METER=1/1609.344, supported=['FIT','TCX','GPX'];
-const APP_VERSION='0.5.8';
+const APP_VERSION='0.5.9';
 function Logo(){return <div className="brand"><div className="mark">EF</div><div><strong>ENDURANCE FORGE</strong><span>ADVANCED RUNNING ANALYTICS</span></div></div>}
 const pagePaths={home:'/',analyze:'/analyze/',compare:'/compare/',guide:'/metrics/',method:'/methodology/',science:'/science/'};
 const pathPages={'/':'home','/analyze':'analyze','/analyze/':'analyze','/compare':'compare','/compare/':'compare','/metrics':'guide','/metrics/':'guide','/methodology':'method','/methodology/':'method','/science':'science','/science/':'science'};
@@ -338,7 +338,7 @@ function halfMedianTrend(rows,key){
 }
 function dynamicsAverage(r,key){
  const rows=(r.analysis?.series||[]).filter(x=>x.t>=r.analysis?.analysisStartS&&x.t<=r.analysis?.analysisEndS);
- const map={cadence:'cadenceSpm',stride:'stepLengthM',gct:'groundContactTimeMs',verticalRatio:'verticalRatioPct',verticalOscillation:'verticalOscillationMm',power:'powerW'};
+ const map={cadence:'cadenceSpm',stride:'strideLengthM',gct:'groundContactTimeMs',verticalRatio:'verticalRatioPct',verticalOscillation:'verticalOscillationMm',power:'powerW'};
  return meanFinite(rows.map(x=>x[map[key]]));
 }
 function summarySnapshot(rows,combined,filter){
