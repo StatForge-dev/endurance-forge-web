@@ -7,7 +7,7 @@ import { analyzeTreadmillActivity } from './analysis.js';
 import { combineAerobicFitness } from './multirun.js';
 
 const MILES_PER_METER=1/1609.344, supported=['FIT','TCX','GPX'];
-const APP_VERSION='0.5.14';
+const APP_VERSION='0.5.15';
 function Logo(){return <div className="brand"><div className="mark">EF</div><div><strong>ENDURANCE FORGE</strong><span>ADVANCED RUNNING ANALYTICS</span></div></div>}
 const pagePaths={home:'/',analyze:'/analyze/',compare:'/compare/',guide:'/metrics/',method:'/methodology/',science:'/science/'};
 const pathPages={'/':'home','/analyze':'analyze','/analyze/':'analyze','/compare':'compare','/compare/':'compare','/metrics':'guide','/metrics/':'guide','/methodology':'method','/methodology/':'method','/science':'science','/science/':'science'};
@@ -470,12 +470,12 @@ function comparableSubset(rows){
    return dist&&dur&&h&&grade;
   });out.push(...(ok.length>=3?ok:g));
  }
- return out.sort((a,b)=>(runTime(a)||0)-(runTime(b)||0));
+ return out.sort((a,b)=>(runTimestamp(a)||0)-(runTimestamp(b)||0));
 }
 function baselineRows(rows,mode,customCount){
- const sorted=[...rows].sort((a,b)=>(runTime(a)||0)-(runTime(b)||0));
+ const sorted=[...rows].sort((a,b)=>(runTimestamp(a)||0)-(runTimestamp(b)||0));
  if(mode==='first5')return sorted.slice(0,5);if(mode==='first10')return sorted.slice(0,10);
- if(mode==='30d'){const times=sorted.map(runTime).filter(Number.isFinite);if(!times.length)return sorted;const end=Math.max(...times),start=end-30*86400000;return sorted.filter(r=>runTime(r)>=start);}
+ if(mode==='30d'){const times=sorted.map(runTimestamp).filter(Number.isFinite);if(!times.length)return sorted;const end=Math.max(...times),start=end-30*86400000;return sorted.filter(r=>runTimestamp(r)>=start);}
  if(mode==='custom')return sorted.slice(0,Math.max(2,Math.min(sorted.length,Number(customCount)||5)));
  return sorted;
 }
@@ -488,7 +488,7 @@ function PaceAtHrPanel({rows}){
  return <div className="viz-card trend-card"><div className="viz-head"><div><span>PACE AT COMPARABLE HRR</span><strong>Estimated pace at fixed cardiovascular intensity</strong></div><small>within run type</small></div>{groups.length?<div className="table-wrap"><table><thead><tr><th>Run type</th>{targets.map(t=><th key={t}>{t}% HRR</th>)}<th>Observations</th></tr></thead><tbody>{groups.map(g=><tr key={g.type}><td><span className={'run-type-tag '+g.type}>{g.type==='treadmill'?'Treadmill':'Outdoor'}</span></td>{targets.map(t=><td key={t}>{fmtPaceSeconds(g.fit.m*t+g.fit.b)}</td>)}<td>{g.fit.n}</td></tr>)}</tbody></table></div>:<p className="viz-note">At least three runs of the same type with usable HRR and pace are needed.</p>}<p className="viz-note">Simple within-type regression estimates pace at common HRR levels. Treat this as a trend/comparison aid, not a physiological threshold test; terrain, environment, fatigue and workout structure can still affect pace.</p></div>
 }
 function ProgressPanel({rows,baseline}){
- const current=[...rows].sort((a,b)=>(runTime(a)||0)-(runTime(b)||0));
+ const current=[...rows].sort((a,b)=>(runTimestamp(a)||0)-(runTimestamp(b)||0));
  const recent=current.slice(-Math.min(5,current.length));
  const metrics=[
   {label:'Pace',get:paceSeconds,fmt:fmtPaceSeconds,delta:(a,b)=>Number.isFinite(a)&&Number.isFinite(b)?`${b<=a?'−':'+'}${fmtPaceSeconds(Math.abs(b-a))}/mi`: '—'},
