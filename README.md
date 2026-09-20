@@ -6,6 +6,15 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
+## v0.5.8 — Heat-map usability and export
+
+- Adds **Fit to screen** and **Full screen** controls to both Multi-Run heat maps.
+- Adds local **PNG, SVG, and CSV** exports for both heat maps.
+- Replaces the previous diverging palette with direction-neutral **teal / neutral / amber** colors: teal is below the same-type baseline and amber is above it.
+- Clarifies that heat-map colors show direction from the runner’s own baseline, not universal good/bad status.
+- Pace now reads intuitively: faster time-per-mile values are below baseline and appear teal; slower values appear amber.
+- Robust median/MAD calculations, same-type baseline separation, correlations, and EF model calculations are unchanged.
+
 ## v0.5.7 — Incremental multi-run loading and compact environment controls
 
 - Compare Runs now **adds newly selected activity files to the existing comparison** instead of replacing the current set.

@@ -1,0 +1,30 @@
+Endurance Forge v0.5.8 — Heat-Map Usability and Export Update
+
+HEAT-MAP VIEWING
+- Added Fit to screen / Comfort view toggle for both Multi-Run heat maps.
+- Added Full screen viewing for each heat map.
+- Compact mode reduces cell padding and typography while preserving values and robust-deviation labels.
+
+EXPORTS
+- Added PNG, SVG, and CSV download options for the Run Pattern Heat Map.
+- Added PNG, SVG, and CSV download options for the Metric Relationship Heat Map.
+- Exports are generated locally in the browser.
+
+COLOR SEMANTICS
+- Replaced the previous blue/red-style diverging palette with a direction-neutral teal/amber palette.
+- Cool teal = below the comparable same-type baseline.
+- Neutral = near baseline.
+- Warm amber = above the comparable same-type baseline.
+- Colors explicitly do not mean universally good/bad.
+- Pace is now intuitive: because pace is stored as time per mile, faster-than-baseline pace is lower and appears teal; slower-than-baseline pace appears amber.
+- Correlation heat-map colors likewise indicate negative vs positive association, not quality.
+
+METHODOLOGY
+- Updated heat-map documentation to describe the palette and export/view controls.
+
+UNCHANGED
+- Robust median/MAD deviation calculations.
+- Same-run-type baseline separation.
+- Correlation calculations.
+- EF estimator and evidence rules.
+- Single-run analysis and treadmill correction.
