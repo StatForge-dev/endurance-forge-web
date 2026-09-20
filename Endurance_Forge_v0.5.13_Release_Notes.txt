@@ -1,0 +1,21 @@
+Endurance Forge v0.5.13 — Activity Inclusion & Analysis Views
+
+This update makes activity selection explicit in Multi-Run Analysis.
+
+Changes
+- Every uploaded activity remains individually includable/excludable with the existing Use checkbox.
+- Added Include all and Exclude all controls. Exclusion removes an activity from analysis without removing the uploaded file from the workspace.
+- Added one persistent Analysis View selector: All Runs, Treadmill, or Outdoor.
+- The Analysis View is a view/filter only; switching views never changes manual inclusion choices.
+- Added live counts for included treadmill, outdoor, total, and manually excluded activities.
+- Multi-run summary, performance/physiology trends, relationship analysis, running-dynamics trends, heat maps, and run-by-run results now follow the same Analysis View.
+- All Runs keeps treadmill and outdoor observations visually identifiable and preserves same-type baselines where required.
+- Outdoor runs are never automatically excluded from general multi-run analysis.
+- The treadmill-derived EF aerobic-fitness estimate continues to use only included treadmill runs.
+- The EF treadmill estimate and workload-model plot are hidden while the Outdoor-only view is selected, with an explanatory note instead.
+- Heat maps now follow the main Analysis View instead of maintaining a second independent run-type selector.
+- Manual exclusions persist while moving among All Runs, Treadmill, and Outdoor views.
+
+Methodological rule
+Uploaded activities -> manual inclusion/exclusion -> analysis view -> metric-specific eligibility.
+A run can therefore remain included in the overall dataset while being unavailable for a metric that does not apply to that run type.
