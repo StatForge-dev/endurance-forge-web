@@ -7,7 +7,7 @@ import { analyzeTreadmillActivity } from './analysis.js';
 import { combineAerobicFitness } from './multirun.js';
 
 const MILES_PER_METER=1/1609.344, supported=['FIT','TCX','GPX'];
-const APP_VERSION='0.5.11';
+const APP_VERSION='0.5.12';
 function Logo(){return <div className="brand"><div className="mark">EF</div><div><strong>ENDURANCE FORGE</strong><span>ADVANCED RUNNING ANALYTICS</span></div></div>}
 const pagePaths={home:'/',analyze:'/analyze/',compare:'/compare/',guide:'/metrics/',method:'/methodology/',science:'/science/'};
 const pathPages={'/':'home','/analyze':'analyze','/analyze/':'analyze','/compare':'compare','/compare/':'compare','/metrics':'guide','/metrics/':'guide','/methodology':'method','/methodology/':'method','/science':'science','/science/':'science'};
@@ -393,20 +393,61 @@ function TrendSvg({rows,valueKey,title,subtitle,formatValue,invert=false}){
  const pathFor=group=>group.rows.map(r=>{const i=usable.indexOf(r);return `${x(i)},${y(r[valueKey])}`}).join(' ');
  return <div className="viz-card trend-card"><div className="viz-head"><div><span>{title}</span><strong>{subtitle}</strong></div><small>{usable.length} usable runs</small></div><svg className="multi-trend-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title} across selected runs`}><line className="chart-axis" x1={L} y1={H-B} x2={W-R} y2={H-B}/><line className="chart-axis" x1={L} y1={T} x2={L} y2={H-B}/>
   {[0,.5,1].map((q,i)=>{const v=lo+(hi-lo)*q,yy=y(v);return <g key={i}><line className="chart-grid" x1={L} y1={yy} x2={W-R} y2={yy}/><text className="chart-label" x={L-8} y={yy+4} textAnchor="end">{formatValue(v)}</text></g>})}
-  {groups.map(g=><polyline key={g.type} className={'trend-line '+g.type} points={pathFor(g)} fill="none"/>)}
+  {groups.filter(g=>g.rows.length>=3).map(g=><polyline key={g.type} className={'trend-line '+g.type} points={pathFor(g)} fill="none"/>)}
   {usable.map((r,i)=><g key={r.id}><circle className={'trend-point '+r.runType} data-run-type={r.runType} cx={x(i)} cy={y(r[valueKey])} r="5.2"><title>{`${runDateLabel(r)} · ${formatValue(r[valueKey])} · ${r.runType}`}</title></circle>{(i===0||i===usable.length-1||usable.length<=6)&&<text className="chart-x-label" x={x(i)} y={H-16} textAnchor={i===0?'start':i===usable.length-1?'end':'middle'}>{runDateLabel(r)}</text>}</g>)}
- </svg><div className="trend-legend"><span><i className="legend-dot treadmill" aria-hidden="true"/>Treadmill</span><span><i className="legend-dot outdoor" aria-hidden="true"/>Outdoor</span></div></div>
+ </svg><div className="trend-legend"><span><i className="legend-dot treadmill" aria-hidden="true"/>Treadmill</span><span><i className="legend-dot outdoor" aria-hidden="true"/>Outdoor</span></div><p className="viz-note">A connecting line is shown only when a run type has at least 3 usable observations; sparse series remain as individual points to avoid implying a continuous trend.</p></div>
 }
-function PaceHrrScatter({rows}){
- const usable=rows.filter(r=>Number.isFinite(r.hrr)&&Number.isFinite(paceSeconds(r)));
- if(usable.length<3)return <div className="viz-card trend-card"><div className="viz-head"><div><span>PACE VS HRR</span><strong>Cardiovascular effort and running pace</strong></div><small>needs at least 3 usable runs</small></div><p className="viz-note">A larger run set makes this relationship more informative.</p></div>;
- const W=760,H=270,L=64,R=20,T=24,B=50,xvals=usable.map(r=>r.hrr*100),yvals=usable.map(paceSeconds),xmin=Math.max(0,Math.min(...xvals)-3),xmax=Math.min(110,Math.max(...xvals)+3),ymin=Math.min(...yvals)-15,ymax=Math.max(...yvals)+15;
- const x=v=>L+(v-xmin)/(xmax-xmin)*(W-L-R),y=v=>T+(v-ymin)/(ymax-ymin)*(H-T-B);
- return <div className="viz-card trend-card"><div className="viz-head"><div><span>PACE VS HRR</span><strong>How pace relates to cardiovascular effort</strong></div><small>faster pace is higher on chart</small></div><svg className="multi-trend-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pace versus heart-rate reserve scatter plot"><line className="chart-axis" x1={L} y1={H-B} x2={W-R} y2={H-B}/><line className="chart-axis" x1={L} y1={T} x2={L} y2={H-B}/>
- {[0,.5,1].map((q,i)=>{const xv=xmin+(xmax-xmin)*q;return <g key={'x'+i}><line className="chart-grid" x1={x(xv)} y1={T} x2={x(xv)} y2={H-B}/><text className="chart-label" x={x(xv)} y={H-24} textAnchor="middle">{Math.round(xv)}%</text></g>})}
- {[0,.5,1].map((q,i)=>{const pv=ymin+(ymax-ymin)*q,yy=y(pv);return <g key={'y'+i}><line className="chart-grid" x1={L} y1={yy} x2={W-R} y2={yy}/><text className="chart-label" x={L-8} y={yy+4} textAnchor="end">{fmtPaceSeconds(pv).replace('/mi','')}</text></g>})}
- {usable.map(r=><circle key={r.id} className={'trend-point scatter-point '+r.runType} data-run-type={r.runType} cx={x(r.hrr*100)} cy={y(paceSeconds(r))} r="6.2"><title>{`${runDateLabel(r)} · ${r.pace} · ${Math.round(r.hrr*100)}% HRR · ${r.runType}`}</title></circle>)}
- <text className="chart-axis-title" x={(L+W-R)/2} y={H-5} textAnchor="middle">Heart-rate reserve</text><text className="chart-axis-title" transform={`translate(14 ${(T+H-B)/2}) rotate(-90)`} textAnchor="middle">Pace (min/mi)</text></svg><div className="trend-legend"><span><i className="legend-dot treadmill" aria-hidden="true"/>Treadmill</span><span><i className="legend-dot outdoor" aria-hidden="true"/>Outdoor</span></div><p className="viz-note">Points are intentionally not fitted with one mixed trend line. Treadmill and outdoor runs can differ systematically because terrain, grade, wind, and measurement conditions are different.</p></div>
+function performanceValue(r,key){
+ if(key==='pace')return paceSeconds(r);
+ if(key==='hrr')return Number.isFinite(r.hrr)?r.hrr*100:NaN;
+ if(key==='drift')return r.drift;
+ if(key==='efficiency')return r.efficiencyIndex;
+ if(key==='hr')return r.hr;
+ if(key==='ef')return r.fitValue;
+ return NaN;
+}
+function PerformancePhysiologyTrend({rows}){
+ const[metric,setMetric]=useState('efficiency');
+ const defs={
+  efficiency:{label:'Pace/HRR efficiency',title:'PERFORMANCE & PHYSIOLOGY TREND',subtitle:'Pace/HRR efficiency across selected runs',fmt:v=>v.toFixed(2)},
+  drift:{label:'HR drift',title:'PERFORMANCE & PHYSIOLOGY TREND',subtitle:'Workload-normalized HR drift across selected runs',fmt:v=>(v>=0?'+':'')+v.toFixed(1)+'%'},
+  pace:{label:'Pace',title:'PERFORMANCE & PHYSIOLOGY TREND',subtitle:'Running pace across selected runs',fmt:v=>fmtPaceSeconds(v),invert:true},
+  hrr:{label:'HRR',title:'PERFORMANCE & PHYSIOLOGY TREND',subtitle:'Heart-rate reserve across selected runs',fmt:v=>Math.round(v)+'%'},
+  hr:{label:'Average HR',title:'PERFORMANCE & PHYSIOLOGY TREND',subtitle:'Analyzed average heart rate across selected runs',fmt:v=>Math.round(v)+' bpm'},
+  ef:{label:'EF aerobic fitness',title:'PERFORMANCE & PHYSIOLOGY TREND',subtitle:'EF aerobic-fitness estimates across qualifying runs',fmt:v=>v.toFixed(1)}
+ };
+ const d=defs[metric],data=rows.map(r=>({...r,performanceValue:performanceValue(r,metric)}));
+ const groups=typeGroups(data),summaries=groups.map(g=>{const usable=g.rows.filter(r=>Number.isFinite(r.performanceValue));if(usable.length<4)return null;const cut=Math.floor(usable.length/2),a=medianFinite(usable.slice(0,cut).map(r=>r.performanceValue)),b=medianFinite(usable.slice(cut).map(r=>r.performanceValue));return Number.isFinite(a)&&Number.isFinite(b)?`${g.type==='treadmill'?'Treadmill':'Outdoor'}: earlier ${d.fmt(a)} → later ${d.fmt(b)}`:null}).filter(Boolean);
+ return <div className="dynamics-trend-wrap"><div className="trend-selector"><label>Performance & physiology trend<select value={metric} onChange={e=>setMetric(e.target.value)}>{Object.entries(defs).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select></label></div><TrendSvg rows={data} valueKey="performanceValue" title={d.title} subtitle={d.subtitle} formatValue={d.fmt} invert={!!d.invert}/>{summaries.length>0&&<p className="note">Median comparison · {summaries.join(' · ')}. This is descriptive, not a claim that the change is beneficial or causal.</p>}</div>
+}
+function relationshipValue(r,key){
+ if(key==='pace')return paceSeconds(r);
+ if(key==='hrr')return Number.isFinite(r.hrr)?r.hrr*100:NaN;
+ if(key==='drift')return r.drift;
+ if(key==='efficiency')return r.efficiencyIndex;
+ return dynamicsAverage(r,key);
+}
+function RelationshipScatter({rows}){
+ const[metric,setMetric]=useState('paceHrr');
+ const defs={
+  paceHrr:{label:'Pace vs HRR',x:'hrr',y:'pace',xLabel:'Heart-rate reserve',yLabel:'Pace (min/mi)',xFmt:v=>Math.round(v)+'%',yFmt:v=>fmtPaceSeconds(v),invertY:true},
+  paceDrift:{label:'Pace vs HR drift',x:'pace',y:'drift',xLabel:'Pace (min/mi)',yLabel:'HR drift',xFmt:v=>fmtPaceSeconds(v),yFmt:v=>(v>=0?'+':'')+v.toFixed(1)+'%',invertX:true},
+  paceGct:{label:'Pace vs ground contact time',x:'pace',y:'gct',xLabel:'Pace (min/mi)',yLabel:'Ground contact time (ms)',xFmt:v=>fmtPaceSeconds(v),yFmt:v=>Math.round(v)+' ms',invertX:true},
+  paceCadence:{label:'Pace vs cadence',x:'pace',y:'cadence',xLabel:'Pace (min/mi)',yLabel:'Cadence (spm)',xFmt:v=>fmtPaceSeconds(v),yFmt:v=>Math.round(v)+' spm',invertX:true},
+  paceStride:{label:'Pace vs stride length',x:'pace',y:'stride',xLabel:'Pace (min/mi)',yLabel:'Stride length (m)',xFmt:v=>fmtPaceSeconds(v),yFmt:v=>v.toFixed(2)+' m',invertX:true},
+  paceVr:{label:'Pace vs vertical ratio',x:'pace',y:'verticalRatio',xLabel:'Pace (min/mi)',yLabel:'Vertical ratio',xFmt:v=>fmtPaceSeconds(v),yFmt:v=>v.toFixed(1)+'%',invertX:true},
+  hrrEfficiency:{label:'HRR vs Pace/HRR efficiency',x:'hrr',y:'efficiency',xLabel:'Heart-rate reserve',yLabel:'Pace/HRR efficiency',xFmt:v=>Math.round(v)+'%',yFmt:v=>v.toFixed(2)}
+ };
+ const d=defs[metric],usable=rows.map(r=>({...r,relX:relationshipValue(r,d.x),relY:relationshipValue(r,d.y)})).filter(r=>Number.isFinite(r.relX)&&Number.isFinite(r.relY));
+ const W=760,H=270,L=68,R=20,T=24,B=54;
+ let chart=null;
+ if(usable.length<3)chart=<div className="viz-card trend-card"><div className="viz-head"><div><span>RELATIONSHIP ANALYSIS</span><strong>{d.label}</strong></div><small>needs at least 3 usable runs</small></div><p className="viz-note">Add more runs containing both selected metrics to examine this relationship.</p></div>;
+ else{
+  const xs=usable.map(r=>r.relX),ys=usable.map(r=>r.relY),xpad=(Math.max(...xs)-Math.min(...xs)||1)*.08,ypad=(Math.max(...ys)-Math.min(...ys)||1)*.10,xmin=Math.min(...xs)-xpad,xmax=Math.max(...xs)+xpad,ymin=Math.min(...ys)-ypad,ymax=Math.max(...ys)+ypad;
+  const x=v=>d.invertX?L+(1-(v-xmin)/(xmax-xmin))*(W-L-R):L+(v-xmin)/(xmax-xmin)*(W-L-R),y=v=>d.invertY?T+(v-ymin)/(ymax-ymin)*(H-T-B):T+(1-(v-ymin)/(ymax-ymin))*(H-T-B);
+  chart=<div className="viz-card trend-card"><div className="viz-head"><div><span>RELATIONSHIP ANALYSIS</span><strong>{d.label}</strong></div><small>{usable.length} usable runs</small></div><svg className="multi-trend-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${d.label} scatter plot`}><line className="chart-axis" x1={L} y1={H-B} x2={W-R} y2={H-B}/><line className="chart-axis" x1={L} y1={T} x2={L} y2={H-B}/>{[0,.5,1].map((q,i)=>{const xv=xmin+(xmax-xmin)*q;return <g key={'x'+i}><line className="chart-grid" x1={x(xv)} y1={T} x2={x(xv)} y2={H-B}/><text className="chart-label" x={x(xv)} y={H-25} textAnchor="middle">{d.xFmt(xv)}</text></g>})}{[0,.5,1].map((q,i)=>{const yv=ymin+(ymax-ymin)*q;return <g key={'y'+i}><line className="chart-grid" x1={L} y1={y(yv)} x2={W-R} y2={y(yv)}/><text className="chart-label" x={L-8} y={y(yv)+4} textAnchor="end">{d.yFmt(yv)}</text></g>})}{usable.map(r=><circle key={r.id} className={'trend-point scatter-point '+r.runType} data-run-type={r.runType} cx={x(r.relX)} cy={y(r.relY)} r="6.2"><title>{`${runDateLabel(r)} · ${d.xFmt(r.relX)} · ${d.yFmt(r.relY)} · ${r.runType}`}</title></circle>)}<text className="chart-axis-title" x={(L+W-R)/2} y={H-5} textAnchor="middle">{d.xLabel}</text><text className="chart-axis-title" transform={`translate(14 ${(T+H-B)/2}) rotate(-90)`} textAnchor="middle">{d.yLabel}</text></svg><div className="trend-legend"><span><i className="legend-dot treadmill" aria-hidden="true"/>Treadmill</span><span><i className="legend-dot outdoor" aria-hidden="true"/>Outdoor</span></div><p className="viz-note">This is an exploratory relationship view. No mixed treadmill/outdoor regression is imposed, and association should not be interpreted as causation.</p></div>;
+ }
+ return <div className="dynamics-trend-wrap"><div className="trend-selector"><label>Relationship analysis<select value={metric} onChange={e=>setMetric(e.target.value)}>{Object.entries(defs).map(([k,v])=><option key={k} value={k}>{v.label}</option>)}</select></label></div>{chart}</div>
 }
 function DynamicsTrend({rows}){
  const[metric,setMetric]=useState('cadence');
@@ -417,13 +458,11 @@ function DynamicsTrend({rows}){
 function MultiRunDashboard({runs,combined}){
  const[filter,setFilter]=useState('all');
  const included=runs.filter(r=>r.included),counts={all:included.length,treadmill:included.filter(r=>r.runType==='treadmill').length,outdoor:included.filter(r=>r.runType==='outdoor').length},rows=selectedRunRows(runs,filter);
- const effRows=rows.map(r=>({...r,effTrend:r.efficiencyIndex})),driftRows=rows.map(r=>({...r,driftTrend:r.drift}));
  if(!rows.length)return null;
  return <section className="multi-dashboard"><div className="panel dashboard-head"><div className="panel-head"><div><span>OVERVIEW</span><h2>Multi-run analysis summary</h2></div><small>snapshot + longitudinal trends</small></div><div className="heat-filter dashboard-filter"><div><b>Run type view</b><span>All Runs displays both types while keeping type-specific trend lines separate.</span></div><div>{['all','treadmill','outdoor'].map(x=><button key={x} className={filter===x?'active':''} onClick={()=>setFilter(x)}>{x==='all'?'All runs':x==='treadmill'?'Treadmill':'Outdoor'} <small>{counts[x]}</small></button>)}</div></div></div>
  <MultiRunSnapshot rows={rows} combined={combined} filter={filter}/>
  <MultiRunInsights rows={rows} combined={combined} filter={filter}/>
- <div className="multi-chart-grid"><TrendSvg rows={effRows} valueKey="effTrend" title="PACE–HR EFFICIENCY TREND" subtitle="Relative running efficiency across runs" formatValue={v=>v.toFixed(2)}/><TrendSvg rows={driftRows} valueKey="driftTrend" title="AEROBIC DECOUPLING TREND" subtitle="Workload-normalized HR drift across runs" formatValue={v=>(v>=0?'+':'')+v.toFixed(1)+'%'} /></div>
- <PaceHrrScatter rows={rows}/>
+ <div className="multi-chart-grid"><PerformancePhysiologyTrend rows={rows}/><RelationshipScatter rows={rows}/></div>
  <DynamicsTrend rows={rows}/>
  <p className="note dashboard-note">Trend charts show the selected run set in chronological order when timestamps are available. In the mixed All Runs view, treadmill and outdoor series remain visually and analytically separate rather than being forced into one combined trend.</p></section>
 }
@@ -502,7 +541,7 @@ function Compare(){
  <MultiRunDashboard runs={analyzed} combined={combined}/>
  <div className={'multi-result '+confidenceClass(combined.confidence)}><div><div className="eyebrow">COMBINED EF AEROBIC FITNESS ESTIMATE</div><h2>{combined.available?`${combined.value.toFixed(1)} mL/kg/min`:'Not enough qualifying treadmill runs yet'}</h2><div className="equivalent-label">ROBUST MULTI-RUN · TREADMILL-DERIVED VO₂MAX-EQUIVALENT</div><p>{combined.reason} Outdoor runs remain visible in the mixed-run analysis but do not influence this estimate.</p></div><div className="multi-result-stats"><Metric label="Inference confidence" value={combined.confidence}/><Metric label="Treadmill evidence" value={`${combined.primaryCount||0} P · ${combined.supportingCount||0} S`} sub={`${combined.excludedCount||0} excluded`}/><Metric label="Workload span" value={combined.available?combined.workloadRange.toFixed(1):'—'} sub="mL/kg/min"/><Metric label="Run agreement" value={combined.available?`MAD ${combined.spreadMad.toFixed(1)}`:'—'} sub="treadmill single-run EF spread"/></div></div>
  <div className="evidence-summary"><div><b>Primary</b><span>Strong treadmill-model evidence: adequate stable-window duration with no major inference limitation.</span></div><div><b>Supporting</b><span>Usable treadmill observation, automatically down-weighted for a stated evidence limitation.</span></div><div><b>Outdoor</b><span>Included in mixed-run trends, pace/HR/running-dynamics comparison, and heat maps; never fed into the treadmill EF model.</span></div></div><div className="performance-neutral-note"><b>Run type separation is methodological, not a performance judgment.</b><span>Outdoor and treadmill runs can be viewed together, but EF workload inference remains treadmill-specific. Heat-map deviations are computed within the same run type so an outdoor run is not labeled unusual merely because it differs from treadmill behavior.</span></div>
- {combined.available&&<MultiRunPlot combined={combined}/>}<CompareBars runs={analyzed.filter(r=>r.included)}/><MultiRunHeatMaps runs={analyzed}/>
+ {combined.available&&<MultiRunPlot combined={combined}/>}<MultiRunHeatMaps runs={analyzed}/>
  <div className="panel table-panel"><div className="panel-head"><div><span>03</span><h2>Run-by-run results</h2></div><small>Mixed activity analysis retained</small></div><div className="table-wrap"><table><thead><tr><th>Run</th><th>Run Type</th><th>Pace</th><th>Run segment</th><th>Run avg HR</th><th>HR drift</th><th>Pace/HRR eff.</th><th>Eff. change</th><th>EF estimate</th><th>Inference</th></tr></thead><tbody>{analyzed.map(r=><tr key={r.id}><td>Run {r.runIndex+1}</td><td><span className={'run-type-tag '+r.runType}>{r.runType==='treadmill'?'Treadmill':'Outdoor'}</span><small className="cell-sub">{r.runTypeOverride?'manual override':`auto · ${r.detectionConfidence}`}</small></td><td>{r.pace}</td><td>{Number.isFinite(r.segment)?formatDuration(r.segment):'—'}</td><td>{Number.isFinite(r.hr)?Math.round(r.hr)+' bpm':'—'}</td><td>{Number.isFinite(r.drift)?(r.drift>=0?'+':'')+r.drift.toFixed(1)+'%':'—'}</td><td>{Number.isFinite(r.efficiencyIndex)?r.efficiencyIndex.toFixed(2):'—'}</td><td>{Number.isFinite(r.efficiencyChange)?(r.efficiencyChange>=0?'+':'')+r.efficiencyChange.toFixed(1)+'%':'—'}</td><td>{r.runType==='treadmill'&&Number.isFinite(r.fitValue)?r.fitValue.toFixed(1):'—'}</td><td>{r.runType==='treadmill'?r.singleConfidence:'Outdoor context'}</td></tr>)}</tbody></table></div></div>
  <div className="disclaimer multi-disclaimer">Mixed-run analysis intentionally separates general running comparisons from treadmill-specific aerobic-fitness inference. Outdoor pace, HR, drift, and running dynamics can contribute to longitudinal pattern analysis, while the combined EF estimate uses only qualifying treadmill observations with corrected treadmill workload inputs.</div></>}{error&&<pre className="error">{error}</pre>}</section>
 }
