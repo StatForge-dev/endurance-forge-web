@@ -327,3 +327,12 @@ footer{border-top-color:var(--line);background:#0f2031}
 
 /* v0.5.16: drill-down and interpretation-first analysis */
 .inspect-run-button{white-space:nowrap;padding:.55rem .75rem;border:1px solid var(--line);background:#17314a;color:var(--text);border-radius:8px;cursor:pointer}.inspect-run-button:hover{border-color:#4d91d8}.run-inspector{margin-top:1.25rem;scroll-margin-top:1rem}.inspector-actions{display:flex;align-items:center;gap:.75rem}.interpretation-first{border-color:#3c6689;background:linear-gradient(180deg,rgba(31,67,96,.38),rgba(12,27,41,.82));margin-bottom:1rem}.interpretation-first .insights-panel{margin-top:1rem}.run-inspector .viz-card{margin-top:1rem}.run-inspector>.mini-grid{margin-bottom:1rem}@media(max-width:760px){.inspector-actions{align-items:flex-end;flex-direction:column}.multi-input-table{min-width:1180px}}
+
+
+/* v0.5.19: section navigation for Multi-Run Analysis */
+.multi-section-nav{position:sticky;top:76px;z-index:18;display:flex;gap:0;margin:1rem 0 1.15rem;padding:0 10px;background:#0d1b2a;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(3,12,21,.18);overflow-x:auto;scrollbar-width:thin}
+.multi-section-nav button{appearance:none;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--muted);font:inherit;font-weight:700;white-space:nowrap;padding:15px 18px 12px;cursor:pointer}
+.multi-section-nav button:hover{color:var(--text);background:rgba(73,162,255,.07)}
+.multi-section-nav button.active{color:#fff;border-bottom-color:var(--accent);background:rgba(73,162,255,.10)}
+.multi-section-nav+ .multi-dashboard,.multi-section-nav+ .heatmap-pending{margin-top:0}
+@media(max-width:900px){.multi-section-nav{top:64px}.multi-section-nav button{padding:13px 14px 10px;font-size:.9rem}}
