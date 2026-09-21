@@ -324,3 +324,6 @@ tbody tr:hover{background:rgba(73,162,255,.07)}
 .note,.metric span,.metric small,.actions span,.panel-head small,.environment-result span,
 .environment-grid label,.heat-filter>div:first-child span{color:var(--muted-2)}
 footer{border-top-color:var(--line);background:#0f2031}
+
+/* v0.5.16: drill-down and interpretation-first analysis */
+.inspect-run-button{white-space:nowrap;padding:.55rem .75rem;border:1px solid var(--line);background:#17314a;color:var(--text);border-radius:8px;cursor:pointer}.inspect-run-button:hover{border-color:#4d91d8}.run-inspector{margin-top:1.25rem;scroll-margin-top:1rem}.inspector-actions{display:flex;align-items:center;gap:.75rem}.interpretation-first{border-color:#3c6689;background:linear-gradient(180deg,rgba(31,67,96,.38),rgba(12,27,41,.82));margin-bottom:1rem}.interpretation-first .insights-panel{margin-top:1rem}.run-inspector .viz-card{margin-top:1rem}.run-inspector>.mini-grid{margin-bottom:1rem}@media(max-width:760px){.inspector-actions{align-items:flex-end;flex-direction:column}.multi-input-table{min-width:1180px}}
