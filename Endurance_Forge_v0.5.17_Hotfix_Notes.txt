@@ -1,0 +1,6 @@
+Endurance Forge v0.5.17 hotfix
+
+Fixes the Multi-Run "Analysis settings" quick-access button. The button now opens the collapsed Analysis Settings & Activities panel and scrolls it into view, making the response immediately visible even though the settings panel follows the analysis dashboard.
+
+Changed file:
+- src/main.jsx
