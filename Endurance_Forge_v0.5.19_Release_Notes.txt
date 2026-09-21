@@ -1,0 +1,20 @@
+Endurance Forge v0.5.19 — Multi-Run section navigation
+
+New
+- Adds a dedicated navigation bar to Multi-Run Analysis with Overview, Progress, Physiology, Running Dynamics, Heat Maps, and Activities & Settings.
+- Overview remains the default view and presents the multi-run snapshot and across-run insights immediately after activities are loaded.
+- Progress contains baseline comparison, pace at comparable HRR, and longitudinal performance/physiology trends.
+- Physiology contains cardiovascular relationship analysis.
+- Running Dynamics contains longitudinal mechanics trends, including GCT balance when present.
+- Heat Maps now has a dedicated analysis view.
+- Activities & Settings contains run inclusion, run-type overrides, treadmill truth inputs, baseline/comparison controls, individual-run drill-down, and optional treadmill-specific tools.
+
+Usability
+- Replaces the previous long vertical Multi-Run page with focused analysis sections to reduce scrolling and keep configuration from obscuring results.
+- The All Runs / Treadmill / Outdoor selector remains global to the Multi-Run analysis.
+- Analysis settings quick access now switches directly to Activities & Settings.
+- The section bar remains visible while scrolling on supported screen sizes.
+
+Preserved
+- No intentional changes to analytical formulas or thresholds.
+- Preserves v0.5.18 Last N baseline selection, v0.5.16 individual-run drill-down, heat-map logic, treadmill-specific EF modeling, and run-type-aware comparisons.

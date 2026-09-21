@@ -6,6 +6,15 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
+## v0.5.19 — Multi-Run section navigation
+
+- Reorganizes Multi-Run Analysis into a persistent section navigation bar: **Overview, Progress, Physiology, Running Dynamics, Heat Maps, and Activities & Settings**.
+- Keeps **Overview** as the default landing section so the snapshot and across-run insights appear first.
+- Moves longitudinal progress, cardiovascular relationships, running-dynamics trends, heat maps, and activity/configuration controls into focused views instead of one long scrolling page.
+- Keeps the existing **All Runs / Treadmill / Outdoor** filter available above the section navigation so the selected run type applies consistently across analysis views.
+- Updates **Analysis settings** quick access to open the Activities & Settings section directly.
+- Preserves individual-run drill-down, Last N baseline selection, treadmill-specific tools, and the existing run-type-aware analytical logic.
+
 ## v0.5.18 — Recent-run baseline selection
 
 - Adds **Last N runs** to the Multi-Run Progress baseline selector.
@@ -77,6 +86,15 @@ Raw activity files are processed locally in the browser.
 Endurance Forge is a browser-based running analytics project for outdoor and treadmill running. It focuses on physiological response, pace, running dynamics, workout structure, and multi-run patterns, while retaining unusually deep treadmill support such as corrected distance/time, grade-aware workload modeling, indoor environment context, and the EF Aerobic Fitness Estimate.
 
 Raw activity files are processed locally in the browser.
+
+## v0.5.19 — Multi-Run section navigation
+
+- Reorganizes Multi-Run Analysis into a persistent section navigation bar: **Overview, Progress, Physiology, Running Dynamics, Heat Maps, and Activities & Settings**.
+- Keeps **Overview** as the default landing section so the snapshot and across-run insights appear first.
+- Moves longitudinal progress, cardiovascular relationships, running-dynamics trends, heat maps, and activity/configuration controls into focused views instead of one long scrolling page.
+- Keeps the existing **All Runs / Treadmill / Outdoor** filter available above the section navigation so the selected run type applies consistently across analysis views.
+- Updates **Analysis settings** quick access to open the Activities & Settings section directly.
+- Preserves individual-run drill-down, Last N baseline selection, treadmill-specific tools, and the existing run-type-aware analytical logic.
 
 ## v0.5.8 — Heat-map usability and export
 
