@@ -1,0 +1,15 @@
+Endurance Forge v0.5.17
+
+Multi-Run analysis-first redesign
+
+- Reorganized Multi-Run Analysis so results appear immediately after activity upload.
+- Added a compact All Runs / Treadmill / Outdoor view control at the top of the analysis.
+- Moved physiological profile, include/exclude controls, run-type overrides, treadmill truth inputs, comparison mode, and progress baseline into a collapsed “Analysis Settings & Activities” panel.
+- Preserved all advanced controls without requiring users to scroll through configuration before seeing results.
+- Made treadmill-specific analytics an optional collapsed section rather than the organizing focus of Multi-Run Analysis.
+- General multi-run analysis now clearly treats outdoor runs, treadmill runs, or both as first-class inputs.
+- Treadmill EF modeling, corrected workload inputs, grade, and indoor environmental context remain available when indoor-specific analysis is wanted.
+- Replaced the long default input-heavy activity list with a compact analysis activity table and View Run drill-down.
+- Preserved the v0.5.16 individual-run drill-down and interpretation-first single-run analysis.
+
+Design principle: upload first, insight immediately, configuration when wanted.
