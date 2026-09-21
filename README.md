@@ -6,6 +6,18 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
+## v0.5.21 — Simpler run selection + optional comparison
+
+- Replaces the confusing Analysis Range / Progress Baseline workflow with one primary **Runs to analyze** control.
+- Runs to analyze is visible at the top of Multi-Run Analysis and drives the entire dashboard.
+- Supports All Runs, Last 5, Last 10, Last 30 days, First N, and Last N.
+- Removes the required/automatic Progress Baseline concept.
+- Adds **Compare with another period** as an optional, off-by-default feature.
+- Optional comparison choices include First 5, First 10, First N, and Previous N.
+- Keeps similar-run filtering as an explicitly advanced, optional control.
+- Progress trends remain available without enabling a comparison.
+- Emphasizes simple navigation: select the runs you want, view the analysis, and enable comparison only when needed.
+
 ## v0.5.20 — Analysis Range + Progress Baseline correction
 
 - Separates **Analysis Range** from **Progress Baseline** in Multi-Run Analysis.

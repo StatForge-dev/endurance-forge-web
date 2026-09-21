@@ -1,0 +1,13 @@
+Endurance Forge v0.5.21
+
+SIMPLER MULTI-RUN SELECTION
+
+- One primary Runs to analyze selector controls the entire Multi-Run dashboard.
+- Available choices: All Runs, Last 5, Last 10, Last 30 days, First N, Last N.
+- Progress Baseline has been removed as a required concept.
+- Comparison is optional and off by default.
+- When enabled, users can compare the selected runs with First 5, First 10, First N, or Previous N runs.
+- Similar-runs filtering remains available as an advanced optional control.
+- Progress trends work without requiring a comparison.
+
+Design goal: useful, user-friendly, simple navigation and straightforward analysis without forced configuration.
