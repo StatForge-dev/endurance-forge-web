@@ -1,0 +1,11 @@
+Endurance Forge v0.5.20
+
+Multi-Run analysis range and progress-baseline correction
+
+- Separates Analysis Range from Progress Baseline.
+- Analysis Range now filters the entire Multi-Run dashboard, including Overview, Progress, Physiology, Running Dynamics, Heat Maps, and the compact activity list.
+- Analysis Range options: All selected runs, Last 5 runs, Last 10 runs, Last 30 days, First N runs, and Last N runs.
+- First N / Last N are chronological, independent of file upload order.
+- Progress Baseline is now explicitly historical: First 5, First 10, or First N runs.
+- Recent Progress Analysis runs are kept separate from baseline runs when possible, preventing the previous overlapping Last-N comparison.
+- The Multi-Run summary now reports the active analysis range and number of runs actually feeding the analysis.
