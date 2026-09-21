@@ -1,0 +1,12 @@
+Endurance Forge v0.5.16
+
+Highlights
+- Adds interpretation-first Run Summary to single-run analysis.
+- Adds View Run drill-down from every uploaded activity in Multi-Run Analysis.
+- Drill-down reuses the same parsed activity and analysis object used by Multi-Run, avoiding duplicate calculations.
+- Adds detailed HR drift, pace-HR efficiency, intensity, pace/HR progression, running dynamics, early-vs-late dynamics, and HRR zone views inside Multi-Run drill-down.
+- Adds GCT Balance (left %) as a longitudinal Running Dynamics Trend option.
+- Keeps treadmill/outdoor distinctions and existing inclusion/exclusion controls intact.
+
+Note
+GCT balance is descriptive. Endurance Forge does not diagnose injury or identify which limb is injured from asymmetry alone.
