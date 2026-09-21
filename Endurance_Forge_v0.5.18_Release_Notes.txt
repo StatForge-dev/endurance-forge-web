@@ -1,0 +1,13 @@
+Endurance Forge v0.5.18 — Recent-run baseline selection
+
+New
+- Adds Last N runs to the Progress baseline selector in Multi-Run Analysis.
+- Selecting Last N runs reveals the same compact N input used by First N runs.
+- Last N is determined chronologically from the active analysis set, so it represents the most recent activities rather than upload order.
+- Existing Selected analysis set, First 5 runs, First 10 runs, Last 30 days, and First N runs options remain unchanged.
+
+Documentation
+- Updates the GitHub README changelog through v0.5.18, including the previously omitted v0.5.12–v0.5.17 releases and the v0.5.17 Analysis Settings hotfix.
+
+Design intent
+First N provides an early historical reference; Last N provides a current/recent reference. Together they support cleaner early-vs-recent progress comparisons without requiring manual activity exclusion.

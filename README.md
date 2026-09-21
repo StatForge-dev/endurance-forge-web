@@ -1,5 +1,64 @@
 # Endurance Forge
 
+**Advanced Running Analytics** for FIT, TCX, and GPX activities.
+
+Endurance Forge is a browser-based running analytics project for outdoor and treadmill running. It focuses on physiological response, pace, running dynamics, workout structure, and multi-run patterns, while retaining specialized treadmill support such as corrected distance/time, grade-aware workload modeling, indoor environment context, and the EF Aerobic Fitness Estimate.
+
+Raw activity files are processed locally in the browser.
+
+## v0.5.18 — Recent-run baseline selection
+
+- Adds **Last N runs** to the Multi-Run Progress baseline selector.
+- Last N uses the most recent activities chronologically from the active analysis set, not upload order.
+- Retains Selected analysis set, First 5, First 10, Last 30 days, and First N baseline options.
+- Updates this README with the previously omitted v0.5.12–v0.5.17 release history.
+
+## v0.5.17 — Analysis-first Multi-Run redesign
+
+- Moves the Multi-Run results ahead of detailed configuration so analysis appears immediately after upload.
+- Adds compact **All Runs / Treadmill / Outdoor** controls and treats outdoor, treadmill, and mixed datasets as first-class analysis inputs.
+- Moves physiological profile, activity inclusion, run-type overrides, treadmill truth inputs, comparison mode, and progress baseline into a collapsed **Analysis Settings & Activities** panel.
+- Makes treadmill-specific analytics an optional collapsed section rather than the organizing focus of Multi-Run Analysis.
+- Preserves the v0.5.16 individual-run drill-down while replacing the long default input-heavy activity list with a compact analysis table.
+- Hotfix: restores the **Analysis settings** quick-access button so it opens the settings panel and scrolls it into view.
+
+## v0.5.16 — Individual-run drill-down and interpretation-first summaries
+
+- Adds an interpretation-first **Run Summary / What Stands Out** section to single-run analysis.
+- Adds **View Run** drill-down for activities loaded in Multi-Run Analysis using the same parsed activity and analysis data.
+- Brings detailed HR drift, Pace–HR efficiency, intensity, pace/HR progression, running dynamics, early-vs-late dynamics, and HRR-zone views into the drill-down.
+- Adds GCT Balance (left %) as a longitudinal Running Dynamics Trend option.
+- Keeps GCT balance descriptive; Endurance Forge does not diagnose injury or identify an injured limb from asymmetry.
+
+## v0.5.15 — Multi-Run runtime hotfix
+
+- Fixes the runtime ReferenceError that prevented v0.5.14 Multi-Run Analysis from rendering after files were loaded.
+- Corrects the helper reference used by comparable-run, baseline, progress, and pace-at-comparable-HRR features.
+- Does not otherwise change analytical logic or v0.5.14 feature behavior.
+
+## v0.5.14 — Comparable Running & Progress Analytics
+
+- Adds **Comparable Runs** mode using tolerant within-type distance, duration, HRR-intensity, and treadmill-grade criteria.
+- Adds Progress baselines: Selected set, First 5, First 10, Last 30 days, and First N runs.
+- Adds median-based **Progress Analysis** comparing the selected baseline with the most recent five runs.
+- Adds **Pace at Comparable HRR** estimates at common HRR levels when enough same-type observations exist.
+- Keeps treadmill and outdoor comparison logic separated where run type materially changes interpretation.
+
+## v0.5.13 — Activity inclusion and analysis views
+
+- Adds explicit per-activity inclusion/exclusion plus **Include all / Exclude all** controls.
+- Adds persistent **All Runs / Treadmill / Outdoor** analysis views without changing manual inclusion choices.
+- Applies the active view consistently to summaries, trends, relationships, heat maps, and run-by-run results.
+- Keeps treadmill-derived EF modeling treadmill-only while allowing outdoor runs to remain fully represented in general analysis.
+
+## v0.5.12 — Multi-Run analytical dashboard refresh
+
+- Replaces the large per-run Average HR / HR Drift bar block with selectable **Performance & Physiology Trend** views.
+- Adds earlier-vs-later median summaries for sufficiently populated run-type series.
+- Adds selectable **Relationship Analysis** plots across pace, HRR, HR drift, cadence, stride length, ground contact time, vertical ratio, and Pace–HR efficiency.
+- Preserves treadmill/outdoor visual separation and improves sparse-series behavior.
+- Retains Running Dynamics Trend and both Multi-Run heat maps.
+
 ## v0.5.11 — Site-wide visual refresh
 
 - Brighter, higher-contrast dark theme across the site.
