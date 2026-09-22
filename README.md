@@ -6,6 +6,15 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
+## v0.5.22 — Direction-neutral GCT Balance
+
+- Redesigns the multi-run GCT Balance trend around a centered **50/50 symmetry** reference rather than a left-percentage-only axis.
+- Uses Endurance Forge styling with explicit **Left-side bias / 50/50 symmetry / Right-side bias** direction cues.
+- Keeps the recorded FIT left-side percentage unchanged internally; the new chart is a presentation and interpretation layer.
+- Hover details report the complete L/R split plus bias magnitude.
+- Updates single-run early-vs-late GCT interpretation to describe movement **closer to or farther from 50/50**, with bias direction, rather than simply “toward L/R.”
+- Keeps GCT balance descriptive: asymmetry alone does not identify an injured limb or establish a cause.
+
 ## v0.5.21 — Simpler run selection + optional comparison
 
 - Replaces the confusing Analysis Range / Progress Baseline workflow with one primary **Runs to analyze** control.

@@ -1,0 +1,10 @@
+Endurance Forge v0.5.22
+Direction-neutral GCT Balance
+
+- Centers the multi-run GCT Balance trend on a 50/50 symmetry reference.
+- Replaces the left-only chart framing with left-bias / symmetry / right-bias interpretation.
+- Preserves the raw recorded left-side GCT balance value.
+- Adds full L/R split and bias magnitude to multi-run point details.
+- Makes single-run early-vs-late GCT change wording symmetry-aware: closer to or farther from 50/50, with direction retained.
+- Retains the existing Endurance Forge visual language rather than copying another platform's chart styling.
+- GCT asymmetry remains descriptive and is not used to diagnose injury or identify an injured limb.
