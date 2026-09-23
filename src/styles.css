@@ -356,3 +356,15 @@ footer{border-top-color:var(--line);background:#0f2031}
 .heat-pos-2{background:#668fc8;color:#fff}
 .heat-pos-3{background:#7cabe4;color:#071526}
 .heat-self{background:#35566e;color:#eef6fb}
+
+/* v0.5.24 home-page refinement: compact hero and four-column overview */
+.home-hero{padding-top:72px;padding-bottom:54px;max-width:1380px}
+.home-hero h1{font-size:clamp(38px,4.25vw,56px);line-height:1.05;letter-spacing:-2.1px;max-width:1000px}
+.home-hero p{font-size:17px;line-height:1.6;max-width:900px;margin-top:18px}
+.home-hero .hero-actions{margin:28px 0 26px}
+.home-feature-grid{grid-template-columns:repeat(4,1fr)}
+.home-feature-grid article{padding:34px clamp(22px,3vw,44px);min-height:230px}
+.home-feature-grid h3{font-size:20px;margin:26px 0 10px}
+@media(max-width:1100px){.home-feature-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.home-hero{padding-top:52px;padding-bottom:44px}.home-hero h1{font-size:clamp(34px,6vw,46px)}}
+@media(max-width:620px){.home-hero{padding-top:38px;padding-bottom:36px}.home-hero h1{font-size:clamp(30px,9vw,36px);line-height:1.08;letter-spacing:-1.4px}.home-hero p{font-size:16px}.home-feature-grid{grid-template-columns:1fr}}
