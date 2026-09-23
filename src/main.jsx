@@ -7,7 +7,7 @@ import { analyzeTreadmillActivity } from './analysis.js';
 import { combineAerobicFitness } from './multirun.js';
 
 const MILES_PER_METER=1/1609.344, supported=['FIT','TCX','GPX'];
-const APP_VERSION='0.5.24';
+const APP_VERSION='0.5.25';
 function Logo(){return <div className="brand"><div className="mark">EF</div><div><strong>ENDURANCE FORGE</strong><span>ADVANCED RUNNING ANALYTICS</span></div></div>}
 const pagePaths={home:'/',analyze:'/analyze/',compare:'/compare/',guide:'/metrics/',method:'/methodology/',science:'/science/'};
 const pathPages={'/':'home','/analyze':'analyze','/analyze/':'analyze','/compare':'compare','/compare/':'compare','/metrics':'guide','/metrics/':'guide','/methodology':'method','/methodology/':'method','/science':'science','/science/':'science'};
@@ -268,7 +268,7 @@ function heatMedian(xs){const a=xs.filter(Number.isFinite).slice().sort((a,b)=>a
 function heatMad(xs){const m=heatMedian(xs);return Number.isFinite(m)?heatMedian(xs.map(x=>Math.abs(x-m))):NaN}
 function heatDeviation(v,values){if(!Number.isFinite(v))return NaN;const m=heatMedian(values),md=heatMad(values);if(!Number.isFinite(m))return NaN;if(md>1e-9)return .6745*(v-m)/md;const sd=Math.sqrt(values.filter(Number.isFinite).reduce((a,x)=>a+(x-m)**2,0)/Math.max(1,values.filter(Number.isFinite).length-1));return sd>1e-9?(v-m)/sd:0}
 function heatClass(z){if(!Number.isFinite(z))return 'heat-missing';const a=Math.abs(z);if(a<.5)return 'heat-0';if(z>=1.5)return 'heat-pos-3';if(z>=.9)return 'heat-pos-2';if(z>=.5)return 'heat-pos-1';if(z<=-1.5)return 'heat-neg-3';if(z<=-.9)return 'heat-neg-2';return 'heat-neg-1'}
-function heatColor(z){if(!Number.isFinite(z))return '#172b3d';const a=Math.abs(z);if(a<.5)return '#29475c';if(z>=1.5)return '#7cabe4';if(z>=.9)return '#668fc8';if(z>=.5)return '#526f9f';if(z<=-1.5)return '#55b6d7';if(z<=-.9)return '#4595b3';return '#3a7891'}
+function heatColor(z){if(!Number.isFinite(z))return '#172b3d';const a=Math.abs(z);if(a<.5)return '#5f89a8';if(z>=1.5)return '#83ade8';if(z>=.9)return '#9dbdec';if(z>=.5)return '#b6cef2';if(z<=-1.5)return '#69c3e7';if(z<=-.9)return '#8bd3ee';return '#afe3f5'}
 function runHeatRows(runs){return runs.map(r=>{const rows=(r.analysis?.series||[]).filter(x=>x.t>=r.analysis?.analysisStartS&&x.t<=r.analysis?.analysisEndS);const avg=k=>meanFinite(rows.map(x=>x[k]));const env=r.runType==='treadmill'?environmentSummary(r.environment||{}):{};return {...r,hrrPct:Number.isFinite(r.hrr)?r.hrr*100:NaN,paceSec:r.miles>0&&r.seconds>0?r.seconds/r.miles:NaN,cadence:avg('cadenceSpm'),gct:avg('groundContactTimeMs'),vr:avg('verticalRatioPct'),efficiencyIndex:r.analysis?.paceHrEfficiency?.index,dewPointF:Number.isFinite(env.dewPointC)?fromCelsius(env.dewPointC,'F'):NaN}})}
 function sameTypeMetricValues(rows,row,key){return rows.filter(x=>x.runType===row.runType&&Number.isFinite(x[key])).map(x=>x[key])}
 function xmlEsc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]))}

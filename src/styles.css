@@ -368,3 +368,18 @@ footer{border-top-color:var(--line);background:#0f2031}
 @media(max-width:1100px){.home-feature-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){.home-hero{padding-top:52px;padding-bottom:44px}.home-hero h1{font-size:clamp(34px,6vw,46px)}}
 @media(max-width:620px){.home-hero{padding-top:38px;padding-bottom:36px}.home-hero h1{font-size:clamp(30px,9vw,36px);line-height:1.08;letter-spacing:-1.4px}.home-hero p{font-size:16px}.home-feature-grid{grid-template-columns:1fr}}
+
+
+/* v0.5.25 — lighter blue heat-map palette
+   Keeps both directions unmistakably blue while making the heat map brighter
+   against the Endurance Forge dark interface. Cyan-blue = below baseline;
+   soft cornflower-blue = above baseline. */
+.heat-missing{background:#172b3d;color:#718b9f}
+.heat-0{background:#5f89a8;color:#f7fbff}
+.heat-neg-1{background:#afe3f5;color:#102b3b}
+.heat-neg-2{background:#8bd3ee;color:#0d2838}
+.heat-neg-3{background:#69c3e7;color:#082331}
+.heat-pos-1{background:#b6cef2;color:#14243a}
+.heat-pos-2{background:#9dbdec;color:#10233d}
+.heat-pos-3{background:#83ade8;color:#0b203c}
+.heat-self{background:#6f96b4;color:#f7fbff}
