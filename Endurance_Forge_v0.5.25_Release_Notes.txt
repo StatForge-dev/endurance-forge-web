@@ -1,0 +1,11 @@
+Endurance Forge v0.5.25
+
+Heat-map palette refinement
+
+- Replaces the v0.5.23 heat-map colors with a substantially lighter all-blue palette.
+- Below-baseline cells now use light cyan-blue shades.
+- Above-baseline cells now use light cornflower/periwinkle-blue shades.
+- Near-baseline cells are also lighter while remaining visually distinct from deviations.
+- Updates text contrast for readability on the lighter cell backgrounds.
+- Keeps browser, fullscreen, SVG, and PNG heat-map colors synchronized.
+- No analysis formulas, thresholds, run classification, or metric calculations were changed.
