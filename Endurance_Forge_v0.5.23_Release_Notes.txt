@@ -1,0 +1,11 @@
+Endurance Forge v0.5.23
+Unified Heat Map Palette + Export Fix
+
+- Replaces the heat-map diverging colors with a lighter Endurance Forge blue-family palette.
+- Uses cyan-blue for below-baseline / negative direction and periwinkle-blue for above-baseline / positive direction.
+- Preserves all existing robust-deviation and correlation thresholds; analytical results are unchanged.
+- Keeps near-baseline cells dark so directional deviations remain easy to identify.
+- Makes stronger deviations progressively more visually prominent.
+- Synchronizes browser, full-screen, SVG, and PNG heat-map colors.
+- Removes the legacy brown palette that remained in exported heat maps.
+- Leaves CSV calculations and exported numerical values unchanged.

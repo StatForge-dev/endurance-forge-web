@@ -6,6 +6,15 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 
 Raw activity files are processed locally in the browser.
 
+## v0.5.23 — Unified Heat Map Palette + Export Fix
+
+- Replaces the heat-map diverging colors with a lighter Endurance Forge blue-family palette.
+- Uses **cyan-blue for below-baseline / negative direction** and **periwinkle-blue for above-baseline / positive direction** while keeping direction distinct without implying good vs bad.
+- Preserves all existing robust-deviation and correlation thresholds; this is a presentation change, not an analytical change.
+- Makes stronger deviations progressively more prominent while retaining a dark neutral band for typical values.
+- Synchronizes browser, full-screen, SVG, and PNG heat-map colors so downloaded graphics no longer use the legacy brown export palette.
+- Leaves CSV calculations and exported numerical values unchanged.
+
 ## v0.5.22 — Direction-neutral GCT Balance
 
 - Redesigns the multi-run GCT Balance trend around a centered **50/50 symmetry** reference rather than a left-percentage-only axis.
