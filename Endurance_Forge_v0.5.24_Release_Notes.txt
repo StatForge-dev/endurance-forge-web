@@ -1,0 +1,10 @@
+Endurance Forge v0.5.24
+
+Home-page refinement
+- Replaced the oversized hero headline with “Find the patterns in your running.”
+- Reduced hero headline size and vertical spacing so the home page is less overpowering and more application-focused.
+- Preserved the existing Endurance Forge navigation, local-first message, file-format badges, and primary actions.
+- Expanded the home overview to four concise feature panels: Analyze the run, Understand the response, Find patterns across runs, and Make more informed decisions.
+- Added responsive sizing so the hero remains restrained on desktop, tablet, and mobile.
+
+No analysis algorithms, file parsing, heat-map logic, or other application functionality were changed in this release.
