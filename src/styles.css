@@ -342,3 +342,17 @@ footer{border-top-color:var(--line);background:#0f2031}
 .balance-direction{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin:2px 4px 12px;color:var(--muted);font-size:.82rem}
 .balance-direction span:last-child{text-align:right}.balance-direction b{color:var(--text);font-weight:700}
 @media(max-width:700px){.balance-direction{font-size:.72rem;gap:6px}.balance-direction b{text-align:center}}
+
+
+/* v0.5.23 — unified lighter blue heat-map palette
+   Browser, fullscreen, SVG and PNG exports use the same directional colors.
+   Cyan-blue = below/negative; periwinkle-blue = above/positive. */
+.heat-missing{background:#172b3d;color:#718b9f}
+.heat-0{background:#29475c;color:#edf5fa}
+.heat-neg-1{background:#3a7891;color:#f4fbff}
+.heat-neg-2{background:#4595b3;color:#fff}
+.heat-neg-3{background:#55b6d7;color:#071923}
+.heat-pos-1{background:#526f9f;color:#f7faff}
+.heat-pos-2{background:#668fc8;color:#fff}
+.heat-pos-3{background:#7cabe4;color:#071526}
+.heat-self{background:#35566e;color:#eef6fb}
