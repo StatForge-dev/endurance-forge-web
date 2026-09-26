@@ -1,0 +1,7 @@
+Endurance Forge v0.5.32
+
+- FIP detection now supports both segmented breakpoints and sustained efficiency-loss onset.
+- Recovery detection now keys off a workload reduction plus subsequent HR decay rather than requiring a perfect local HR peak.
+- Efficiency Profile and Experimental multi-run trend strokes reduced to 1.15 px with non-scaling SVG strokes for consistent thin rendering.
+- Experimental methodology note updated for the revised detection rules.
+- No changes to DI or PHH formulas.
