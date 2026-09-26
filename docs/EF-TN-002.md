@@ -1,6 +1,6 @@
 # EF-TN-002 — Experimental Analytics Methodology
 
-**Endurance Forge · v0.5.31**
+**Endurance Forge · v0.5.32**
 
 ## Status and scope
 
@@ -84,3 +84,7 @@ Each activity is analyzed independently before longitudinal plotting. Missing or
 ## Limitations
 
 Experimental measures can be influenced by pacing strategy, terrain, treadmill behavior, temperature, humidity, hydration, fatigue, caffeine, medications, illness, sensor lag/error, stopping versus active recovery, and workout structure. They should be interpreted as within-person analytical observations, preferably across comparable activities. They are not diagnoses and are not evidence by themselves that training caused a longitudinal change.
+
+
+## v0.5.32 detection refinement
+FIP now uses a two-path detector: a supported segmented-regression breakpoint when the efficiency slope becomes materially worse, or—when deterioration is gradual—the first sustained >=2% loss from the early-run (20–40%) efficiency baseline with a lower post-onset mean. Recovery detection now also requires evidence of a workload reduction and a subsequent HR fall; this allows recoveries that do not begin at a perfect single-sample HR peak while avoiding recovery estimates during unchanged workload. These are Endurance Forge analytical detection rules, not clinical thresholds.
