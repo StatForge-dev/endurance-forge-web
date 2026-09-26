@@ -1,0 +1,24 @@
+Endurance Forge v0.5.26 — Experimental Analytics
+
+NEW
+- Adds a top-level Experimental tab and /experimental/ route.
+- Adds five exploratory, confidence-gated metrics:
+  1. Durability Index (DI)
+  2. Fatigue Inflection Point (FIP)
+  3. Pace–HR Hysteresis (PHH)
+  4. Aerobic Response Lag (ARL)
+  5. Recovery Kinetics (RK)
+- Supports FIT, TCX, and GPX activity uploads using local browser processing.
+- Supports treadmill truth distance/time correction before experimental analysis.
+- Reports unavailable/not detected states instead of forcing weak estimates.
+- Adds clear experimental-use guidance and confidence labels.
+
+METHOD NOTES
+- DI compares speed/HR efficiency in 20–40% vs 60–80% analysis windows.
+- FIP uses segmented regression and requires meaningful fit improvement plus deterioration after the breakpoint.
+- PHH uses normalized speed–HR trajectory area and requires workload variation.
+- ARL uses lagged correlation of workload and HR changes over 0–120 seconds.
+- RK detects meaningful post-effort HR declines and estimates exponential recovery time constant tau plus HRR60.
+
+CAUTION
+These are exploratory Endurance Forge analytics, not clinical measures, universal performance scores, or device-manufacturer metrics. Thresholds and algorithms may evolve during validation.
