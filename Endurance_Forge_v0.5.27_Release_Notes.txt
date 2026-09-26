@@ -1,0 +1,13 @@
+Endurance Forge v0.5.27 — Experimental Multi-Run Analysis
+
+Added a Single Run / Multi-Run switch to Experimental.
+Multi-Run Experimental now:
+- accepts multiple FIT, TCX, and GPX activities
+- calculates the five Experimental metrics independently for each qualifying activity
+- preserves unavailable/not-detected results rather than converting them to zero
+- provides All Runs, Treadmill, and Outdoor filters
+- shows longitudinal charts for Durability Index, Fatigue Inflection Point, Pace-HR Hysteresis, Aerobic Response Lag, and Recovery Kinetics
+- includes an activity-level results table and metric availability counts
+- keeps raw activity processing local in the browser
+
+Experimental metrics remain exploratory within-person analytics and are not clinical or universal performance scores.

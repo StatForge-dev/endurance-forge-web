@@ -347,5 +347,5 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 - Scatter-plot markers and chart calculations are unchanged.
 
 
-## v0.5.26 Experimental Analytics
+## v0.5.27 Experimental Analytics
 Adds the Experimental tab with Durability Index, Fatigue Inflection Point, Pace–HR Hysteresis, Aerobic Response Lag, and Recovery Kinetics. These outputs are exploratory, confidence-gated within-person analytics and are not clinical or manufacturer metrics.
