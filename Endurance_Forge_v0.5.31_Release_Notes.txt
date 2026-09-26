@@ -1,0 +1,12 @@
+Endurance Forge v0.5.31 — Experimental Methodology Documentation
+
+Documentation-focused release; Experimental metric calculations are unchanged from v0.5.30.
+
+- Adds a full Experimental Analytics methodology section to the Methodology page.
+- Documents DI, FIP, PHH, ARL, and Recovery Kinetics equations/algorithms.
+- Publishes current preprocessing, detection requirements, confidence logic, chart interpretation, and limitations.
+- Explicitly distinguishes Endurance Forge project rules from clinical or population thresholds.
+- Documents multi-run handling, including missing-value behavior and FIP normalization by percent of run.
+- Adds a direct methodology link from the Experimental page.
+- Adds docs/EF-TN-002.md as a standalone technical note.
+- Updates displayed application version to 0.5.31.

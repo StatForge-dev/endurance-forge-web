@@ -1,0 +1,9 @@
+Endurance Forge v0.5.31 — changed files
+
+Replace/add these files in the existing deployment source:
+- src/main.jsx (replace)
+- docs/EF-TN-002.md (new)
+- README.md (replace, optional for deployed site)
+- Endurance_Forge_v0.5.31_Release_Notes.txt (new, documentation)
+
+No analytical engine or CSS files changed in v0.5.31.
