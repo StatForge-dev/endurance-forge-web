@@ -7,7 +7,7 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 Raw activity files are processed locally in the browser.
 
 
-## v0.5.31 — Experimental Analytics Methodology
+## v0.5.33 — Experimental Analytics Methodology
 
 - Adds complete methodology for DI, FIP, PHH, ARL, and Recovery Kinetics.
 - Documents equations, preprocessing, detection rules, confidence gates, chart meaning, multi-run handling, and limitations.

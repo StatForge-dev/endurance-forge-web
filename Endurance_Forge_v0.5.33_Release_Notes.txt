@@ -1,0 +1,9 @@
+Endurance Forge v0.5.33
+FIP validation and diagnostics release
+
+- Replaces threshold-crossing FIP fallback with continuous segmented (hinge) regression.
+- Uses BIC model comparison (Delta BIC >= 6) plus slope, durability-loss, boundary, and breakpoint-stability validation.
+- Progressive durability loss without a validated change point is no longer labeled FIP.
+- Adds expandable single-run FIP validation diagnostics.
+- Adds FIP method/diagnostic context to multi-run results, including Delta BIC.
+- Updates Experimental methodology to match the validated FIP implementation.
