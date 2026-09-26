@@ -1,0 +1,12 @@
+Endurance Forge v0.5.28
+Experimental Visualization Update
+
+Added five purpose-built single-run Experimental charts:
+- Durability efficiency profile with early/late DI windows
+- Fatigue Inflection breakpoint view with post-inflection region
+- Pace–HR hysteresis trajectory with chronological progression markers
+- Aerobic Response Lag speed-vs-HR timing view
+- Recovery Kinetics post-effort HR decay curves
+
+Recovery events now retain the record-level recovery curve used for visualization.
+Existing v0.5.27 Multi-Run longitudinal Experimental charts remain unchanged.

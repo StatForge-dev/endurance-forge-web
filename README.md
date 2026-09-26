@@ -349,3 +349,6 @@ Adds EF-TN-001, a cited technical justification for the EF Aerobic Fitness Estim
 
 ## v0.5.27 Experimental Analytics
 Adds the Experimental tab with Durability Index, Fatigue Inflection Point, Pace–HR Hysteresis, Aerobic Response Lag, and Recovery Kinetics. These outputs are exploratory, confidence-gated within-person analytics and are not clinical or manufacturer metrics.
+
+## v0.5.28 Experimental Visual Diagnostics
+Single-run Experimental analysis now includes purpose-built visualizations for all five metrics: the DI efficiency profile, FIP breakpoint view, PHH speed–HR loop, ARL timing overlay, and Recovery Kinetics decay curves. These charts expose the record-level behavior behind each headline metric rather than adding decorative summary graphics.
