@@ -1,0 +1,11 @@
+Endurance Forge v0.5.34
+
+Experimental Analytics — Two-Path FIP Model
+
+- Adds two validated FIP paths: change point and progressive onset.
+- Progressive onset uses a 15–30% baseline and an adaptive 2–5% loss threshold based on observed durability loss.
+- Requires local deterioration, future loss, and persistence; selects the strongest supported candidate rather than the first eligible point.
+- Removes dependence on the former fixed 40% onset boundary that caused clustering during validation.
+- Adds progressive-onset diagnostics and method labels to single-run and multi-run views.
+- Updates EF-TN-002 methodology.
+- No changes to DI, PHH, ARL, or Recovery Kinetics.

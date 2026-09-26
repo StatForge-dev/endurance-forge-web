@@ -7,6 +7,10 @@ Endurance Forge is a browser-based running analytics project for outdoor and tre
 Raw activity files are processed locally in the browser.
 
 
+## v0.5.34 — Two-Path FIP Validation
+
+FIP now supports validated **change-point** and **progressive-onset** paths. Progressive onset uses an adaptive loss threshold, local deterioration, and persistence rather than a fixed percent-of-run trigger. Multi-run tables identify the FIP method.
+
 ## v0.5.33 — Experimental Analytics Methodology
 
 - Adds complete methodology for DI, FIP, PHH, ARL, and Recovery Kinetics.
