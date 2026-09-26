@@ -1,6 +1,6 @@
 # EF-TN-002 — Experimental Analytics Methodology
 
-**Endurance Forge · v0.5.32**
+**Endurance Forge · v0.5.34**
 
 ## Status and scope
 
@@ -26,15 +26,13 @@ Confidence is sample-count based, with a duration-quality requirement for the hi
 
 ## 2. Fatigue Inflection Point (FIP)
 
-The efficiency series is smoothed with a short moving mean. A single linear fit is compared with two-segment fits whose candidate breakpoints span 20–80% of analyzed duration. Each side requires sufficient observations.
+FIP is the estimated onset of sustained running-efficiency deterioration and uses two independent validation paths.
 
-A breakpoint is reported only when the current implementation finds all of the following:
+**Path A — Change point.** The smoothed efficiency series is compared with a continuous segmented (hinge) regression over candidate breakpoints from 25–80% of analyzed duration. A change-point FIP requires ΔBIC >= 6, a sufficiently negative post-break slope, a meaningful negative slope change, at least 2% early-to-late efficiency loss, a non-boundary candidate, and a stable breakpoint among similarly supported candidates.
 
-- >3.5% reduction in squared residual error versus the single-line fit;
-- post-break efficiency trend < −0.35%/hour; and
-- post-break slope deterioration >0.35 percentage points/hour relative to the pre-break slope.
+**Path B — Progressive onset.** When no discrete change point validates and early-to-late loss is at least 3%, Endurance Forge establishes a pre-onset efficiency baseline from 15–30% of the run. The progressive loss threshold is 50% of the observed early-to-late loss, bounded to 2–5%. Candidate onsets from 30–82.5% are evaluated. A candidate must cross the adaptive threshold, show at least 0.75% local deterioration, retain at least 80% of the threshold loss in the subsequent median, and have at least 68% of subsequent samples remain below the threshold. The highest-supported candidate is selected rather than the first eligible candidate.
 
-These are Endurance Forge detection rules, not published physiological diagnostic cutoffs. If evidence is insufficient, FIP is reported as **Not detected**.
+This two-path design separates a discrete change in slope from a gradual but established deterioration. It also avoids the former fixed 40% eligibility boundary that produced artificial clustering during validation. The reported method is **change point** or **progressive onset**. If neither path validates, FIP remains **Not detected**. These are Endurance Forge analytical rules, not published physiological diagnostic cutoffs.
 
 ## 3. Pace–HR Hysteresis (PHH)
 
@@ -86,5 +84,3 @@ Each activity is analyzed independently before longitudinal plotting. Missing or
 Experimental measures can be influenced by pacing strategy, terrain, treadmill behavior, temperature, humidity, hydration, fatigue, caffeine, medications, illness, sensor lag/error, stopping versus active recovery, and workout structure. They should be interpreted as within-person analytical observations, preferably across comparable activities. They are not diagnoses and are not evidence by themselves that training caused a longitudinal change.
 
 
-## v0.5.32 detection refinement
-FIP now uses a two-path detector: a supported segmented-regression breakpoint when the efficiency slope becomes materially worse, or—when deterioration is gradual—the first sustained >=2% loss from the early-run (20–40%) efficiency baseline with a lower post-onset mean. Recovery detection now also requires evidence of a workload reduction and a subsequent HR fall; this allows recoveries that do not begin at a perfect single-sample HR peak while avoiding recovery estimates during unchanged workload. These are Endurance Forge analytical detection rules, not clinical thresholds.
