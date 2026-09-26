@@ -1,8 +1,10 @@
-Endurance Forge v0.5.29 changed files
+Endurance Forge v0.5.30 — Changed Files
 
-Replace these files in the existing site source:
-- src/experimental.js
+Replace:
 - src/main.jsx
 - src/styles.css
 
-The release notes describe the detection and legend fixes.
+Changes:
+- Response Timing legend now occupies a dedicated band above the plot.
+- Experimental Multi-Run trend lines are thinner (1.6 px).
+- Single-run Efficiency Profile line is thinner (1.6 px).

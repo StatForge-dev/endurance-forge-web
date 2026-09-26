@@ -1,0 +1,7 @@
+Endurance Forge v0.5.30
+
+Experimental chart presentation refinements
+- Response Timing legend moved into a dedicated band above the plotting area so it cannot cover Speed or HR traces.
+- All Experimental Multi-Run trend lines reduced from 3 px to 1.6 px for a cleaner analytical presentation.
+- Single-run Efficiency Profile line reduced from 2.2 px to 1.6 px as requested.
+- No experimental calculations or detection thresholds were changed in this release.
