@@ -1,0 +1,9 @@
+Endurance Forge v0.5.29
+Experimental detection reliability update
+
+- FIP now smooths the efficiency trace before segmented regression and uses less brittle but still confidence-gated breakpoint criteria.
+- ARL now uses smoothed speed/HR signals and short-window changes, reducing sensitivity to second-to-second sensor noise.
+- Recovery Kinetics now detects sustained post-peak HR declines rather than requiring a strict one-sample local maximum.
+- The same revised experimental engine powers Single Run and Multi-Run Experimental analysis.
+- Response Timing legend now has a protected background so chart traces do not obstruct the labels.
+- Missing metrics remain missing; the update does not force a FIP, ARL, or recovery result when evidence is insufficient.
